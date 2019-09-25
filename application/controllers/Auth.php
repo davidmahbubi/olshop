@@ -28,15 +28,31 @@ class Auth extends CI_Controller{
 
             if($data){
                 if(password_verify($password, $data['password'])){
-                    echo 'success';
+                    $data = [
+                        'id' => $data['id'],
+                        'email' => $data['email'],
+                        'role_id' => $data['role_id']
+                    ];
+                    $this->session->set_userdata(['user' => $data]);
+                    redirect('home');
                     die;
                 } else{
-                    echo 'wrong password';
-                    die;
+                    $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+                        Wrong Password !
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>');
+                    redirect('auth');
                 }
             } else{
-                echo 'wrong email';
-                die;
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+            Wrong E-Mail
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        redirect('auth');  
             }
         }
 

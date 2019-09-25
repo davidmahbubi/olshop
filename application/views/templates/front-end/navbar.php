@@ -26,19 +26,19 @@
                   <a class="nav-link" href="<?=base_url('product')?>">Shop</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Today Offer</a>
+                  <a class="nav-link" href="<?=base_url('cart')?>">My Cart</a>
                 </li>
+                <?php if(isset($user)) :?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#"><?= $user['first_name'] . " " . $user['last_name']; ?></a>
+                  </li>
+                <?php endif; ?>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Shipping Countt</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">My Cart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Account Name</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?=base_url('auth')?>">Log In</a>
+                  <?php if(!$this->session->userdata('user')) : ?>
+                    <a class="nav-link" href="<?=base_url('auth')?>">Log In</a>
+                  <?php else: ?>
+                    <a class="nav-link" href="<?=base_url('auth/logout')?>">Log Out</a>
+                  <?php endif; ?>
                 </li>
               </ul>
             </div>

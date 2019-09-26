@@ -35,6 +35,10 @@
                     <i class="fas fa-fw mr-2 fa-box"></i>
                     <span><?= $product['stock'] ?> products</span>
                 </li>
+                <li class="list-group-item">
+                    <i class="fas fa-fw fa-tag mr-2"></i>
+                    <a href="<?=base_url()?>product?cat=<?= strtolower($product['category_name']); ?>"><?= $product['category_name']; ?></a>
+                </li>
               </ul>
             </div>
             <div class="col-lg-4">

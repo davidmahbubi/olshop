@@ -17,23 +17,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav dv-navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item dv-nav-menu" data-menu="home">
                   <a class="nav-link" href="<?=base_url()?>"
                     >Home</a
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dv-nav-menu" data-menu="shop">
                   <a class="nav-link" href="<?=base_url('product')?>">Shop</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dv-nav-menu" data-menu="my-cart">
                   <a class="nav-link" href="<?=base_url('cart')?>">My Cart</a>
                 </li>
                 <?php if(isset($user)) :?>
-                  <li class="nav-item">
+                  <li class="nav-item dv-nav-menu" data-menu="user">
                     <a class="nav-link" href="#"><?= $user['first_name'] . " " . $user['last_name']; ?></a>
                   </li>
                 <?php endif; ?>
-                <li class="nav-item">
+                <li class="nav-item dv-nav-menu" data-menu="log">
                   <?php if(!$this->session->userdata('user')) : ?>
                     <a class="nav-link" href="<?=base_url('auth')?>">Log In</a>
                   <?php else: ?>

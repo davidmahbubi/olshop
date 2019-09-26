@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container main-container" data-navmenu="shop">
       <div class="row mt-4">
         <!-- Left -->
         <div class="col-lg-4">

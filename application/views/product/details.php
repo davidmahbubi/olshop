@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container main-container" data-navmenu="shop">
     <a href="#" onclick="history.go(-1)" class="btn text-white dv-bg-primary bt-dv-bg-primary mt-3 mb-3">
       < Back</a> 
       <div class="row m-0">

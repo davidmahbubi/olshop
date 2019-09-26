@@ -1,5 +1,20 @@
  <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      $(function(){
+
+        // Script to make navbar active function
+        
+        const menu = $('.dv-nav-menu');
+        $.each($(menu), function (i, e){
+          let menu = $(e).data('menu');
+          let containerMenu = $('.main-container').data('navmenu');
+          if(menu == containerMenu){
+            $(e).addClass('active');
+          }
+        });
+      });
+    </script>
     <script src="<?=base_url('assets/')?>js/popper.min.js"></script>
     <script src="<?=base_url('assets/')?>js/bootstrap.min.js"></script>
   </body>

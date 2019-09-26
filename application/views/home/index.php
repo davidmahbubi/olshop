@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container main-container" data-navmenu="home">
       <!-- Carousel -->
       <div
         id="carouselExampleIndicators"

@@ -20,6 +20,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
     />
 
+    <script src="<?=base_url('assets/')?>js/jquery-3.4.1.min.js"></script>
+
     <title><?= $title ?></title>
   </head>
   <body>

@@ -10,3 +10,11 @@ function isLoggedIn(){
         return false;
     }
 }
+
+function formatPrice($price, $prefix = 'Rp'){
+    return $prefix . '. ' . number_format((float)$price,0, ',' , '.');
+}
+
+function convertToKg($val){
+    return (int)$val / 1000 . ' KG';
+}

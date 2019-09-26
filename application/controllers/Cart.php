@@ -25,10 +25,10 @@ class Cart extends CI_Controller{
 
         $data = [];
         $meta['title'] = "My Cart";
-        $data['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
+        $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
 
         $this->load->view('templates/front-end/header', $meta);
-        $this->load->view('templates/front-end/navbar', $data);
+        $this->load->view('templates/front-end/navbar', $req);
         $this->load->view('cart/index', $data);
         $this->load->view('templates/front-end/footer');
     }

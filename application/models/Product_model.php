@@ -17,4 +17,8 @@ class Product_model extends CI_Model{
             return $this->db->query($query)->row_array();
         }
     }
+
+    public function getAllCategories(){
+        return $this->db->get('product_categories_table')->result_array();
+    }
 }

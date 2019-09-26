@@ -14,10 +14,12 @@ class Product extends CI_Controller{
 
         $meta['title'] = 'Product';
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
+        $data['product'] = $this->Product_model->getAllProduct();
+        $data['categories'] = $this->Product_model->getAllCategories();
 
         $this->load->view('templates/front-end/header', $meta);
         $this->load->view('templates/front-end/navbar', $req);
-        $this->load->view('product/index');
+        $this->load->view('product/index', $data);
         $this->load->view('templates/front-end/footer');
 
     }

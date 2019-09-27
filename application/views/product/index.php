@@ -64,6 +64,7 @@
 	$(checkFilter).click(function () {
 
 		filter = [];
+		$('#inputSearch').val('');
 
 		$.each($(checkFilter), function (i, e) {
 			if ($(e).prop('checked')) {

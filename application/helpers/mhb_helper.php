@@ -11,8 +11,8 @@ function isLoggedIn(){
     }
 }
 
-function formatPrice($price, $prefix = 'Rp'){
-    return $prefix . '. ' . number_format((float)$price,0, ',' , '.');
+function formatPrice($price, $prefix = 'Rp', $suffix = ',-'){
+    return $prefix . '. ' . number_format((float)$price,0, ',' , '.') . $suffix;
 }
 
 function convertToKg($val){

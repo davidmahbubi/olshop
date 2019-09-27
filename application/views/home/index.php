@@ -96,7 +96,7 @@
                   <?php for($i = 0; $i< $p['rating']; $i++) : ?>
                     <i class="fas fa-star"></i>
                   <?php endfor; ?>
-                  <p class="mt-2">Rp. 200.000,-</p>
+                  <p class="mt-2"><?= formatPrice($p['price'], 'Rp'); ?></p>
                   <a
                     href="<?=base_url()?>product/details/<?=$p['id']?>"
                     class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary"

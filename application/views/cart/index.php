@@ -14,9 +14,10 @@
               </tr>
             </thead>
             <tbody>
+            <?php $i = 1; ?>
             <?php foreach($cart as $c) : ?>
               <tr>
-                <th scope="row">1</th>
+                <th scope="row"><?= $i++ ?></th>
                 <td>
                   <img
                     src="<?=base_url()?>assets/img/product/<?=$c['image']?>"
@@ -40,7 +41,7 @@
                 <td><?= formatPrice($c['subtotal'], 'Rp'); ?></td>
                 <td>
                   <a
-                    href="#"
+                    href="<?=base_url()?>product/details/<?=$c['id']?>"
                     class="btn  dv-bg-primary bt-dv-bg-primary text-white mr-2 mt-2"
                   >
                     Details
@@ -60,7 +61,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-8">
-            <h3>Pay Total : <span class="paytotal">Rp.6.500.000,-</span></h3>
+            <h3>Pay Total : <span class="paytotal"><?= formatPrice($this->cart->total(), 'Rp') ?></span></h3>
           </div>
           <div class="col-md-4">
             <button

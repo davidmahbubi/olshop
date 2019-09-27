@@ -42,4 +42,33 @@ class Product extends CI_Controller{
         $this->load->view('product/details', $data);
         $this->load->view('templates/front-end/footer');
     }
+
+    public function ajaxFilter(){
+        
+        if(!$this->input->post()){
+            echo json_encode(['stats' => false]);
+        } else{
+
+            $filterData = $this->input->post('data');
+            $d = [];
+            $index = 0;
+
+            foreach($filterData as $fd){
+                if($index === 0){
+                    $this->db->where('category_id', $fd);
+                } else{
+                    $this->db->or_where('category_id', $fd);
+                }
+                $index++;
+            }
+
+            $res = $this->db->get('product_table')->result_array();
+
+            foreach($res as $i=>$r){
+                $res[$i]['price'] = formatPrice($res[$i]['price'], 'Rp');
+            }
+            
+            echo json_encode(['stats' => true, 'data' => $res]);
+        }
+    }
 }

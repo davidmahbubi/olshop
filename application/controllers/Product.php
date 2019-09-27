@@ -50,10 +50,8 @@ class Product extends CI_Controller{
         } else{
 
             $filterData = $this->input->post('data');
-            $d = [];
-            $index = 0;
 
-            foreach($filterData as $fd){
+            foreach($filterData as $index=>$fd){
                 if($index === 0){
                     $this->db->where('category_id', $fd);
                 } else{

@@ -57,7 +57,6 @@ class Product extends CI_Controller{
                 } else{
                     $this->db->or_where('category_id', $fd);
                 }
-                $index++;
             }
 
             $res = $this->db->get('product_table')->result_array();

@@ -8,7 +8,7 @@
               <li class="list-group-item">
                 <div class="form-check">
                   <input
-                    class="form-check-input"
+                    class="form-check-input check-filter"
                     type="checkbox"
                     value="<?=$c['id']?>"
                     id="check-<?=$c['name']?>"
@@ -72,3 +72,19 @@
         </div>
       </div>
     </div>
+    <script>
+    
+    let checkFilter = $('.check-filter');
+    let filter = [];
+    
+    $(checkFilter).click(function(){
+      filter = [];
+      $.each($(checkFilter), function(i, e){
+        if($(e).prop('checked')){
+          filter.push($(e).val());
+        }
+      })
+      console.log(filter);
+    });
+
+    </script>

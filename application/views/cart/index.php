@@ -31,8 +31,9 @@
                   <input
                     type="number"
                     value="2"
+                    min="1"
                     class="form-control w-100"
-                    id="exampleInputEmail1"
+                    id="cartInput"
                   />
                 </td>
                 <td>Rp. 2.000.000,-</td>
@@ -66,7 +67,8 @@
                     type="number"
                     value="3"
                     class="form-control w-100"
-                    id="exampleInputEmail1"
+                    min="1"
+                    id="cartInput"
                   />
                 </td>
                 <td>Rp. 4.500.000,-</td>

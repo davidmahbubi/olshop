@@ -37,7 +37,7 @@
                 </li>
                 <li class="list-group-item">
                     <i class="fas fa-fw fa-tag mr-2"></i>
-                    <a href="<?=base_url()?>product?cat=<?= strtolower($product['category_name']); ?>"><?= $product['category_name']; ?></a>
+                    <a href="<?=base_url()?>product?cat=<?= $product['category_id'] ?>"><?= $product['category_name']; ?></a>
                 </li>
               </ul>
             </div>

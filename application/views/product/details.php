@@ -46,7 +46,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Total : </span>
                     </div>
-                    <input type="number" min="1" value="1" class="form-control bt-cart" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="number" min="1" value="1" class="form-control bt-cart" id="inputCart" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                   </div>
               <button type="button" class="btn w-100 btn-outline-primary mb-2 addToCart"><i
                   class="fas fa-cart-plus cart-ic" style="font-size: 30px;"></i></button>
@@ -130,10 +130,38 @@
 
   <script>
       $(function(){
+
+        // Hover function
+
         $('.addToCart').hover(function(){
             $('.cart-ic').css('color', 'white');
         },function(){
             $('.cart-ic').css('color', '#00adb5');
-        })
+        });
+
+        // Add to cart
+
+        $('.addToCart').click(function(){
+
+          let total = $('#inputCart').val();
+
+          $.ajax({
+            url: '<?=base_url()?>cart/addtocart',
+            data: {
+              total: total,
+              id: '<?=$product['id']?>',
+              price: '<?=$product['price']?>',
+              name: '<?=$product['name']?>',
+              image: '<?=$product['img']?>'
+            },
+            method: 'post',
+            dataType: 'json',
+            success: function(result){
+              if(result.stats){
+                alert('<?=$product['name']?> * ' + total + ' is added to yur cart !');
+              }
+            }
+          });
+        });
       });
   </script>

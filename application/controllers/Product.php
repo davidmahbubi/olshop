@@ -68,4 +68,19 @@ class Product extends CI_Controller{
             echo json_encode(['stats' => true, 'data' => $res]);
         }
     }
+
+    public function ajaxsearch(){
+        if(!$this->input->post()){
+            echo json_encode($this->db->get('product_table')->result_array());
+        } else{
+            $query = $this->input->post('query');
+            $query = "SELECT * FROM `product_table` WHERE `name` LIKE '%" . $query ."%'";
+            $result = $this->Product_model->costumQuery($query);
+            if($result){
+                echo json_encode(['stats' => true, 'data' => $result]);
+            } else{
+                echo json_encode(['stats' => false]);
+            }
+        }
+    }
 }

@@ -23,7 +23,7 @@
 		<div class="col-lg-8 mb-4">
 			<h3 class="mt-3">Shop Now</h3>
 			<div class="input-group mb-3 mt-3">
-				<input type="text" class="form-control" placeholder="Search Product" />
+				<input type="text" class="form-control" id="inputSearch" placeholder="Search Product" />
 				<div class="input-group-append">
 					<button class="btn text-white dv-bg-primary bt-dv-bg-primary" type="button" id="button-addon2">
 						Search
@@ -34,8 +34,8 @@
 				<?php foreach($product as $p) : ?>
 				<div class="col-sm-6 mt-3 product-col">
 					<div class="card">
-						<img src="<?=base_url()?>assets/img/product/<?=$p['img']?>" class="card-img-top dv-card-prod-img"
-							alt="..." />
+						<img src="<?=base_url()?>assets/img/product/<?=$p['img']?>"
+							class="card-img-top dv-card-prod-img" alt="..." />
 						<div class="card-body">
 							<h5><?= $p['name'] ?></h5>
 							<?php if($p['rating'] >= 1) : ?>
@@ -57,8 +57,7 @@
 	</div>
 </div>
 <script>
-
-  const baseUrl = '<?=base_url()?>';
+	const baseUrl = '<?=base_url()?>';
 	let checkFilter = $('.check-filter');
 	let filter = [];
 
@@ -80,22 +79,68 @@
 			method: 'post',
 			dataType: 'json',
 			success: function (result) {
-        $('#productContainer').html('');
-        if(result.stats){
-          $.each($(result.data), function(i, e){
-              $('#productContainer').append('<div class="col-sm-6 mt-3 product-col"><div class="card"><img src="' + baseUrl +'assets/img/product/' + e.img +'" class="card-img-top dv-card-prod-img"alt="..." /><div class="card-body" id="' + e.id + '"><h5>' + e.name +'</h5>');
-              if(e.rating >= 1){
-                for(let i = 0; i < e.rating; i++){
-                  $('#' + e.id).append('<i class="fas fa-star"></i>');
-                };
-              } else{
-                  $('#' + e.id).append('<p>No rating yet</p>')
-              }
-              $('#' + e.id).append('<p class="mt-2">'+ e.price +'</p><a href="' + baseUrl + 'product/details/'+ e.id +'"class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary">Buy Now</a></div></div></div>');
-          });
-        } else{
-          location.reload();
-        }
+				$('#productContainer').html('');
+				if (result.stats) {
+					$.each($(result.data), function (i, e) {
+						$('#productContainer').append(
+							'<div class="col-sm-6 mt-3 product-col"><div class="card"><img src="' +
+							baseUrl + 'assets/img/product/' + e.img +
+							'" class="card-img-top dv-card-prod-img"alt="..." /><div class="card-body" id="' +
+							e.id + '"><h5>' + e.name + '</h5>');
+						if (e.rating >= 1) {
+							for (let i = 0; i < e.rating; i++) {
+								$('#' + e.id).append('<i class="fas fa-star"></i>');
+							};
+						} else {
+							$('#' + e.id).append('<p>No rating yet</p>')
+						}
+						$('#' + e.id).append('<p class="mt-2">' + e.price + '</p><a href="' +
+							baseUrl + 'product/details/' + e.id +
+							'"class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary">Buy Now</a></div></div></div>'
+						);
+					});
+				} else {
+					location.reload();
+				}
+			}
+		});
+	});
+
+</script>
+
+<script>
+	$('#inputSearch').keyup(function () {
+		$.ajax({
+			url: '<?=base_url()?>product/ajaxsearch',
+			data: {
+				query: $('#inputSearch').val()
+			},
+			method: 'post',
+			dataType: 'json',
+			success: function (result) {
+				$('#productContainer').html('');
+				if(result.stats){
+				$.each($(result.data), function (i, e) {
+					$('#productContainer').append(
+						'<div class="col-sm-6 mt-3 product-col"><div class="card"><img src="' +
+						baseUrl + 'assets/img/product/' + e.img +
+						'" class="card-img-top dv-card-prod-img"alt="..." /><div class="card-body" id="' +
+						e.id + '"><h5>' + e.name + '</h5>');
+					if (e.rating >= 1) {
+						for (let i = 0; i < e.rating; i++) {
+							$('#' + e.id).append('<i class="fas fa-star"></i>');
+						};
+					} else {
+						$('#' + e.id).append('<p>No rating yet</p>')
+					}
+					$('#' + e.id).append('<p class="mt-2">' + e.price + '</p><a href="' +
+						baseUrl + 'product/details/' + e.id +
+						'"class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary">Buy Now</a></div></div></div>'
+					);
+				});
+				} else{
+					$('#productContainer').append('<h4 class="ml-3">Product not found !</h4>');
+				}
 			}
 		});
 	});

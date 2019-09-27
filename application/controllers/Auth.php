@@ -11,6 +11,10 @@ class Auth extends CI_Controller{
 
     public function index(){
 
+        if(isLoggedIn()){
+            redirect();
+        }
+
         $meta['title'] = 'Login';
 
         $this->form_validation->set_rules('email', 'e-mail', 'required|valid_email|trim');

@@ -30,7 +30,7 @@
                 </li>
                 <?php if(isset($user)) :?>
                   <li class="nav-item dv-nav-menu" data-menu="user">
-                    <a class="nav-link" href="#"><?= $user['first_name'] . " " . $user['last_name']; ?></a>
+                    <a class="nav-link" href="<?=base_url('user')?>"><?= $user['first_name'] . " " . $user['last_name']; ?></a>
                   </li>
                 <?php endif; ?>
                 <li class="nav-item dv-nav-menu" data-menu="log">

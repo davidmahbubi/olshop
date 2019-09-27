@@ -50,4 +50,31 @@ class Cart extends CI_Controller{
             echo json_encode(['stats' => true, 'data' => $this->cart->contents()]);
         }
     }
+
+    public function edittotal(){
+        if(!$this->input->post()){
+            echo json_encode(['stats' => false, 'msg' => 'no post data found !']);
+        } else{
+
+            $total = $this->input->post('total');
+
+            if($total <= 0){
+                $total = 1;
+            }
+            $data = [
+                'rowid' => $this->input->post('rowid'),
+                'qty' => $total
+            ];
+            $this->cart->update($data);
+            $data['curItem'] = $this->cart->get_item($this->input->post('rowid'));
+            $data['curItem']['subtotal'] = formatPrice($data['curItem']['subtotal']);
+            $data['totalPrice'] = formatPrice($this->cart->total());
+            echo json_encode(['stats' => true, 'data' => $data]);
+        }
+    }
+
+    public function removeCartItem($rowid){
+        $this->cart->remove($rowid);
+        redirect('cart');
+    }
 }

@@ -34,9 +34,10 @@
                     type="number"
                     value="<?=$c['qty']?>"
                     min="1"
-                    class="form-control w-100"
+                    class="form-control w-100 itemTotal"
                     id="cartInput"
                   />
+                  <input type="hidden" class="rowid" value="<?=$c['rowid']?>">
                 </td>
                 <td><?= formatPrice($c['subtotal'], 'Rp'); ?></td>
                 <td>
@@ -46,7 +47,7 @@
                   >
                     Details
                   </a>
-                  <a href="#" class="btn btn-outline-danger mr-2 mt-2">
+                  <a onclick="return confirm('really want to delete this item from cart?');" href="<?=base_url()?>cart/removecartitem/<?=$c['rowid']?>" class="btn btn-outline-danger mr-2 mt-2">
                     Delete
                   </a>
                 </td>
@@ -75,3 +76,40 @@
         </div>
       </div>
     </div>
+
+    <script>
+
+      $(".itemTotal").keypress(function (evt) {
+          evt.preventDefault();
+      });
+    
+      $('.itemTotal').change(function(){
+
+        let itemVal = $(this).val();
+        let rowId = $(this).next().val();
+        let curElement = $(this);
+
+        if( itemVal <= 0){
+          $(this).val(1);
+        }
+
+        $.ajax({
+          url: '<?=base_url()?>cart/edittotal',
+          data: {
+            total: itemVal,
+            rowid: rowId
+          },
+          method: 'post',
+          dataType: 'json',
+          success: function(result){
+            if(!result.stats){
+              alert('Failed to increase / decrease qty !');
+            } else{
+              $(curElement).parent().next().html(result.data.curItem.subtotal);
+              $('.paytotal').html(result.data.totalPrice);
+            }
+          }
+        });
+      });
+    
+    </script>

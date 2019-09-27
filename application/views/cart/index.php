@@ -78,10 +78,6 @@
     </div>
 
     <script>
-
-      $(".itemTotal").keypress(function (evt) {
-          evt.preventDefault();
-      });
     
       $('.itemTotal').change(function(){
 

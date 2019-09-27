@@ -80,7 +80,7 @@
           </ul>
         </div>
         <!-- Right -->
-        <div class="col-lg-8">
+        <div class="col-lg-8 mb-3">
           <h3 class="mt-3">New Product</h3>
           <div class="row">
           <?php foreach($product as $p) : ?>
@@ -93,9 +93,13 @@
                 />
                 <div class="card-body">
                   <h5><?= $p['name'] ?></h5>
-                  <?php for($i = 0; $i< $p['rating']; $i++) : ?>
-                    <i class="fas fa-star"></i>
-                  <?php endfor; ?>
+                  <?php if($p['rating'] >= 1) : ?>
+                    <?php for($i = 0; $i< $p['rating']; $i++) : ?>
+                      <i class="fas fa-star"></i>
+                    <?php endfor; ?>
+                  <?php else: ?>
+                    <span>No rating yet</span>
+                  <?php endif; ?>
                   <p class="mt-2"><?= formatPrice($p['price'], 'Rp'); ?></p>
                   <a
                     href="<?=base_url()?>product/details/<?=$p['id']?>"

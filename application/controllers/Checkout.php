@@ -58,8 +58,6 @@ class Checkout extends CI_Controller{
 
         if(isset($_FILES['receiptImg'])){
 
-            var_dump('yes');
-
             $uploadImg = $this->Payment_model->uploadReceipt();
 
             if($uploadImg['stats']){
@@ -84,7 +82,6 @@ class Checkout extends CI_Controller{
                 foreach($orderedProduct as $op){
                     $this->Payment_model->addOrderedProduct($op, $orderId);
                 }
-
 
                 $this->cart->destroy();
 

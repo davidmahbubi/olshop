@@ -35,6 +35,7 @@ class Product extends CI_Controller{
             ON `category_id` = `product_categories_table`.`id`
             WHERE `product_table`.`id` = 
         " . $id;
+        
         $data['product'] = $this->Product_model->costumQuery($query, false);
 
         $this->load->view('templates/front-end/header', $meta);

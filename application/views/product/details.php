@@ -158,21 +158,16 @@
 				url: '<?=base_url()?>cart/addtocart',
 				data: {
 					total: total,
-					id: '<?=$product['
-					id ']?>',
-					price: '<?=$product['
-					price ']?>',
-					name: '<?=$product['
-					name ']?>',
-					image: '<?=$product['
-					img ']?>'
+					id: '<?=$product['id']?>',
+					price: '<?=$product['price']?>',
+					name: '<?=$product['name']?>',
+					image: '<?=$product['img']?>'
 				},
 				method: 'post',
 				dataType: 'json',
 				success: function (result) {
 					if (result.stats) {
-						alert('<?=$product['
-							name ']?> * ' + total + ' is added to yur cart !');
+						alert('<?=$product['name']?> * ' + total + ' is added to yur cart !');
 					}
 				}
 			});

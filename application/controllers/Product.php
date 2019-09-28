@@ -76,6 +76,10 @@ class Product extends CI_Controller{
             $query = $this->input->post('query');
             $query = "SELECT * FROM `product_table` WHERE `name` LIKE '%" . $query ."%'";
             $result = $this->Product_model->costumQuery($query);
+
+            foreach($result as $i=>$r){
+                $result[$i]['price'] = formatPrice($result[$i]['price'], 'Rp');
+            }
             if($result){
                 echo json_encode(['stats' => true, 'data' => $result]);
             } else{

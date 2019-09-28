@@ -94,6 +94,7 @@ class Auth extends CI_Controller{
 
     public function logout(){
         unset($_SESSION['user']);
+        unset($_SESSION['shipAddress']);
         $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
             Logged out !
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

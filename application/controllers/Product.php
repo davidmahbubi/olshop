@@ -87,4 +87,33 @@ class Product extends CI_Controller{
             }
         }
     }
+
+    public function buy($id = NULL){
+
+        if(!isLoggedIn()){
+            redirect('404');
+        }
+
+        if(is_null($id)){
+            redirect('404');
+        } else{
+
+            $product = $this->Product_model->getProductById($id);
+
+            if($this->input->post('qty')){
+                $qty = $this->input->post('qty');
+            } else{
+                $qty = 1;
+            }
+            $this->cart->destroy();
+            $this->cart->insert([
+                'id' => $id,
+                'qty' => $qty,
+                'price' => $product['price'],
+                'name' => $product['name'],
+                'image' => $product['img']
+            ]);
+            redirect('checkout');
+        }
+    }
 }

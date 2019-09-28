@@ -6,10 +6,10 @@
             <div class="card-header">
               <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                  <a class="nav-link">Shipping</a>
+                  <a class="nav-link">Shipping<i class="fas fa-check ml-2"></i></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link">Payment</a>
+                  <a class="nav-link">Payment <i class="fas fa-check ml-2"></i></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active">Status</a>

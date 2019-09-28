@@ -7,13 +7,14 @@ class Checkout extends CI_Controller{
     public function __construct(){
 
         parent::__construct();
-
-        $this->load->model('User_model');
-        $this->load->model('Payment_model');
-
+        
         if(!isLoggedIn()){
             redirect('404');
         }
+        
+        $this->load->model('User_model');
+        $this->load->model('Payment_model');
+
     }
 
     public function index(){
@@ -57,6 +58,8 @@ class Checkout extends CI_Controller{
 
         if(isset($_FILES['receiptImg'])){
 
+            var_dump('yes');
+
             $uploadImg = $this->Payment_model->uploadReceipt();
 
             if($uploadImg['stats']){
@@ -82,6 +85,9 @@ class Checkout extends CI_Controller{
                     $this->Payment_model->addOrderedProduct($op, $orderId);
                 }
 
+
+                $this->cart->destroy();
+
                 redirect('checkout/status/' . urlencode($orderId));
 
             } else{
@@ -89,6 +95,7 @@ class Checkout extends CI_Controller{
                 <div class="alert alert-danger" role="alert">
                 ' . $uploadImg['data'] .'
                 </div>');
+                redirect('checkout/payment');
             }
         } else{
             $this->load->view('templates/front-end/header', $meta);

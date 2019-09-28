@@ -1,4 +1,4 @@
-<div class="container main-container" data-navmenu="my-cart">
+<div class="container main-container" data-navmenu="my-order">
       <div class="row m-0 mt-4">
         <div class="col-lg">
           <h1>Checkout</h1>

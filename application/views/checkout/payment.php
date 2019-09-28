@@ -3,6 +3,7 @@
 		<div class="col-lg">
 			<h1>Checkout</h1>
 			<div class="card text-center mt-3 mb-4">
+				<?= $this->session->flashdata('msg'); ?>
 				<div class="card-header">
 					<ul class="nav nav-tabs card-header-tabs">
 						<li class="nav-item">

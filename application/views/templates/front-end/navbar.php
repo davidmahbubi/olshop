@@ -29,6 +29,9 @@
                   <a class="nav-link" href="<?=base_url('cart')?>">My Cart</a>
                 </li>
                 <?php if(isset($user)) :?>
+                  <li class="nav-item dv-nav-menu" data-menu="my-order">
+                    <a class="nav-link" href="<?=base_url('order')?>">My Order</a>
+                  </li>
                   <li class="nav-item dv-nav-menu" data-menu="user">
                     <a class="nav-link" href="<?=base_url('user')?>"><?= $user['first_name'] . " " . $user['last_name']; ?></a>
                   </li>

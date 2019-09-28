@@ -47,12 +47,14 @@
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Total : </span>
-								</div>
-								<input type="number" min="1" name="qty" value="1" class="form-control bt-cart" id="inputCart"
-									placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <input type="number" min="1" name="qty" value="1" class="form-control bt-cart" id="inputCart"
+                placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 							</div>
-							<button type="button" class="btn w-100 btn-outline-primary mb-2 addToCart"><i
-									class="fas fa-cart-plus cart-ic" style="font-size: 30px;"></i></button>
+              <?php if(isLoggedIn()) : ?>
+                <button type="button" class="btn w-100 btn-outline-primary mb-2 addToCart"><i
+                class="fas fa-cart-plus cart-ic" style="font-size: 30px;"></i></button>
+              <?php endif; ?>
 							<button type="submit" class="btn text-white w-100 dv-bg-primary bt-dv-bg-primary">Buy</button>
 						</form>
 					</div>

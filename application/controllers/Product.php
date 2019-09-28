@@ -91,7 +91,13 @@ class Product extends CI_Controller{
     public function buy($id = NULL){
 
         if(!isLoggedIn()){
-            redirect('404');
+            $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+            Log in to buy this product
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        redirect('auth'); 
         }
 
         if(is_null($id)){

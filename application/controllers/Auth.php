@@ -64,6 +64,10 @@ class Auth extends CI_Controller{
 
     public function register(){
 
+        if(isLoggedIn()){
+            redirect();
+        }
+
         $meta['title'] = 'Register';
 
         $this->form_validation->set_rules('first_name', 'first name', 'required|trim');

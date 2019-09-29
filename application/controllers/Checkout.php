@@ -125,6 +125,7 @@ class Checkout extends CI_Controller{
                 $query = "  SELECT * FROM `ordered_product_table`
                             JOIN `product_table` ON `ordered_product_table`.`id_product` = `product_table`.`id`
                             WHERE `ordered_product_table`.`order_id` = '" . $orderId . "'";
+
                 $data['orderProduct'] = $this->Payment_model->costumQuery($query);
                 $data['orderStatus'] = $this->Payment_model->getOrderStatusById($orderData['order_status']);
                 $data['courierData'] = $this->Payment_model->getCourierById($orderData['courier_id']);
@@ -137,7 +138,42 @@ class Checkout extends CI_Controller{
             } else{
                 redirect('404');
             }
+        }
+    }
 
+    public function updateReceipt(){
+        
+        if(isset($_FILES)){
+
+            $uploadImg = $this->Payment_model->uploadReceipt();
+            $orderId = $this->input->post('order_id');
+
+            if($uploadImg['stats']){
+
+                $query = "SELECT * FROM `order_identity_table` WHERE `order_id` = '" . $orderId . "'";
+                $curImageName = $this->Payment_model->costumQuery($query,false);
+                $curImageName = $curImageName['transfer_proof_img'];
+                $newImageName = $uploadImg['data']['file_name'];
+
+                $this->Payment_model->updateReceiptName($orderId, $newImageName);
+                unlink('./assets/img/receipt/' . $curImageName);
+
+                $this->session->set_flashdata('msg', '
+                <div class="alert alert-success" role="alert">
+                Receipt image updated
+                </div>');
+                redirect('checkout/status/' . urlencode($orderId));
+                
+            } else{
+                $this->session->set_flashdata('msg', '
+                <div class="alert alert-danger" role="alert">
+                ' . $uploadImg['data'] .'
+                </div>');
+                redirect('checkout/status/' . urlencode($orderId));
+            }
+
+        } else{
+            redirect('404');
         }
     }
 }

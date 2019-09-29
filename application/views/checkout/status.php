@@ -2,6 +2,7 @@
       <div class="row m-0 mt-4">
         <div class="col-lg">
           <h1>Checkout</h1>
+          <?= $this->session->flashdata('msg'); ?>
           <div class="card text-center mt-3 mb-4">
             <div class="card-header">
               <ul class="nav nav-tabs card-header-tabs">
@@ -65,6 +66,13 @@
                     <li class="list-group-item">
                       <h5>Arrived time : waiting</h5>
                     </li>
+                    <li class="list-group-item">
+                      <h5>Transfer receipt : </h5>
+                      <img class="img-thumbnail mt-2" src="<?=base_url()?>assets/img/receipt/<?=$orderData['transfer_proof_img']?>" height="150">
+                      <?php if($orderStatus['id'] == 1) : ?>
+                        <button class="btn dv-bg-primary text-white mt-2 w-100" data-toggle="modal" data-target="#modalUpdateReceipt">Update receive image</button>
+                      <?php endif; ?>
+                    </li>
                   </ul>
                   <div class="text-left mt-2">
                     <i class="fas fa-info-circle d-inline mr-2"></i>
@@ -80,3 +88,45 @@
         </div>
       </div>
     </div>
+
+    <?php if($orderStatus['id'] == 1) : ?>
+        <!-- Modal -->
+    <div class="modal fade" id="modalUpdateReceipt" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form action="<?=base_url()?>checkout/updatereceipt" method="POST" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Update Receipt Image</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="receiptUpateImg" name="receiptImg" required>
+            <input type="hidden" value="<?=$orderData['order_id']?>" name="order_id">
+            <label class="custom-file-label" for="receiptUpateImg">Choose file</label>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn dv-bg-primary text-white">Save changes</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    
+    $(function(){
+      $('#receiptUpateImg').change(function(){
+        let fileName = $(this).val().split('\\');
+        fileName = fileName[fileName.length - 1];
+        console.log(fileName);
+        $('.custom-file-label').html(fileName);
+      });
+    });
+    
+    </script>
+<?php endif; ?>

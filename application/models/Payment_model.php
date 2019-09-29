@@ -79,4 +79,12 @@ class Payment_model extends CI_Model{
     public function getCourierById($id){
         return $this->db->get_where('courier_table', ['id' => $id])->row_array();
     }
+
+    public function updateReceiptName($orderId, $newName){
+        $data = [
+            'transfer_proof_img' => $newName
+        ];
+        $this->db->where('order_id', $orderId);
+        $this->db->update('order_identity_table', $data);
+    }
 }

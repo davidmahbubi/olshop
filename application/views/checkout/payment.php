@@ -15,6 +15,9 @@
 						<li class="nav-item">
 							<a class="nav-link">Status</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link">Review</a>
+						</li>
 					</ul>
 				</div>
 				<div class="card-body">

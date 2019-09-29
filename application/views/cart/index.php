@@ -2,6 +2,7 @@
 	<div class="row m-0 mt-4">
 		<div class="col-lg">
 			<h1>My Cart</h1>
+			<?= $this->session->flashdata('msg'); ?>
 			<table class="table mt-3">
 				<thead class="thead-dark dv-bg-primary">
 					<tr>

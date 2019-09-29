@@ -21,4 +21,15 @@ class Product_model extends CI_Model{
     public function getAllCategories(){
         return $this->db->get('product_categories_table')->result_array();
     }
+
+    public function addReview($data){
+        $data = [
+            'user_id' => $data['userId'],
+            'rating' => $data['rating'],
+            'review' => $data['review'],
+            'product_id' => $data['productId'],
+            'date_posted' => $data['datePosted']
+        ];
+        $this->db->insert('product_review_table', $data);
+    }
 }

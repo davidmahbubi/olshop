@@ -19,6 +19,14 @@ class Checkout extends CI_Controller{
 
     public function index(){
 
+        if(!$this->cart->contents()){
+            $this->session->set_flashdata('msg', '
+            <div class="alert alert-danger" role="alert">
+            Your cart is empty !
+            </div>');
+            redirect('cart');
+        }
+
         $meta['title'] = "Checkout";
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
         $data['courier'] = $this->Payment_model->getAllCourier();
@@ -51,6 +59,14 @@ class Checkout extends CI_Controller{
     }
 
     public function payment(){
+
+        if(!$this->cart->contents()){
+            $this->session->set_flashdata('msg', '
+            <div class="alert alert-danger" role="alert">
+            Your cart is empty !
+            </div>');
+            redirect('cart');
+        }
 
         $meta['title'] = "Payment";
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;

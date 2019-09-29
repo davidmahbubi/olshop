@@ -112,3 +112,7 @@ i {
 .bottom {
 	bottom: 0;
 }
+
+i .rating {
+	background-color: grey !important;
+}

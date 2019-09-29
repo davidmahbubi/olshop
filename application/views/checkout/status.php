@@ -13,8 +13,11 @@
                   <a class="nav-link">Payment <i class="fas fa-check ml-2"></i></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active">Status</a>
+                  <a class="nav-link active">Status <?= $orderStatus['id'] == 6 ? '<i class="fas fa-check ml-2"></i>':'' ?></a>
                 </li>
+                <li class="nav-item">
+							<a class="nav-link">Review</a>
+						</li>
               </ul>
             </div>
             <div class="card-body">
@@ -50,6 +53,9 @@
                   <h2 class="dv-bg-primary text-white pt-2 pb-2 rounded">
                     <?= $orderStatus['status_name'] ?>
                   </h2>
+                  <?php if($orderStatus['id'] == 6) : ?>
+                    <a href="<?=base_url()?>order/review/<?=$orderData['order_id'];?>">Write a review</a>
+                  <?php endif; ?>
                   <ul class="list-group text-left mt-3">
                     <li class="list-group-item">
                       <h5>Order id : <?=$orderData['order_id']?></h5>

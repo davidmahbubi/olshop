@@ -3,6 +3,7 @@
 class Product_model extends CI_Model{
 
     public function getAllProduct(){
+        $this->db->order_by('date_created', 'DESC');
         return $this->db->get('product_table')->result_array();
     }
 

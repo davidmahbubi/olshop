@@ -54,8 +54,7 @@ class Order extends CI_Controller{
                 $user_id = $this->session->userdata('user')['id'];
                 
                 foreach($reviewData as $index=>$rd){
-                    echo $index . " = " . $rd;
-                    echo"<br>";
+
                     $arrayBuff[explode('-',$index)[0]] = $rd;
 
                     if($loop == 3){
@@ -66,7 +65,6 @@ class Order extends CI_Controller{
                         $loop = 0;
                     }
                     $loop++;
-
                 }
 
                 foreach($reviewDatum as $rdtum){

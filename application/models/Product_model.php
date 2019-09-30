@@ -32,4 +32,11 @@ class Product_model extends CI_Model{
         ];
         $this->db->insert('product_review_table', $data);
     }
+
+    public function getAllReview($productId){
+        $query = "  SELECT `product_review_table`.*, `user_table`.`first_name`, `user_table`.`last_name`, `user_table`.`image` FROM `product_review_table`
+                    JOIN `user_table` ON `user_id` = `user_table`.`id`
+                    WHERE `product_id` = " . $productId . " ORDER BY `date_posted` DESC";
+        return $this->db->query($query)->result_array();            
+    }
 }

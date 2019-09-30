@@ -71,67 +71,34 @@
 				<div class="col-lg">
 					<h1>Review</h1>
 					<div class="row mt-3">
-						<div class="col-lg-6 mb-3 m-0">
-							<div class="card mb-3" style="max-width: 540px;">
+					<?php if(!empty($review)) : ?>
+					<?php foreach($review as $r) : ?>
+						<div class="col-md mb-3 m-0">
+							<div class="card mb-3" style="max-width: 540px; ">
 								<div class="row no-gutters">
 									<div class="col-md-4">
-										<img src="img/profile/a.jpg" class="card-img h-100" alt="...">
+										<img src="<?=base_url()?>assets/img/profile/<?=$r['image']?>" width="200" class="card-img h-100">
 									</div>
 									<div class="col-md-8">
 										<div class="card-body">
-											<h5 class="card-title">Carole</h5>
-											<p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea commodi delectus
-												quos cum, vero eveniet nihil nemo possimus, soluta voluptate eaque ipsa voluptates eius eligen
+											<h5 class="card-title"><?= $r['first_name'] . " " . $r['last_name'] ?></h5>
+											<p class="card-text"><?= $r['review'] ?>
 											</p>
 											<p class="card-text"><small class="text-muted">
-													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>
+											<?php for($i = 0; $i < $r['rating']; $i++): ?>
+												<i class="fas fa-star"></i>
+											<?php endfor; ?>
 												</small></p>
+											<small><?= date('d F Y', $r['date_posted']); ?></small>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-6 mb-3 m-0">
-							<div class="card mb-3" style="max-width: 540px;">
-								<div class="row no-gutters">
-									<div class="col-md-4">
-										<img src="img/profile/b.jpg" class="card-img h-100" alt="...">
-									</div>
-									<div class="col-md-8">
-										<div class="card-body">
-											<h5 class="card-title">Chris Jhon</h5>
-											<p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ipsam.</p>
-											<p class="card-text"><small class="text-muted">
-													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>
-												</small></p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 mb-3 m-0">
-							<div class="card mb-3" style="max-width: 540px;">
-								<div class="row no-gutters">
-									<div class="col-md-4">
-										<img src="img/profile/c.png" class="card-img h-100" alt="...">
-									</div>
-									<div class="col-md-8">
-										<div class="card-body">
-											<h5 class="card-title">John Doe</h5>
-											<p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet id omnis at?
-												content. This content is a little bit longer.</p>
-											<p class="card-text"><small class="text-muted">
-													<i class="fas fa-star"></i>
-													<i class="fas fa-star"></i>
-												</small></p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<h5 class="ml-3">No review</h5>
+					<?php endif; ?>
 					</div>
 				</div>
 			</div>

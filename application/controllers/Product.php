@@ -37,6 +37,7 @@ class Product extends CI_Controller{
         " . $id;
         
         $data['product'] = $this->Product_model->costumQuery($query, false);
+        $data['review'] = $this->Product_model->getAllReview($id);
 
         $this->load->view('templates/front-end/header', $meta);
         $this->load->view('templates/front-end/navbar', $req);

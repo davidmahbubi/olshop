@@ -96,6 +96,7 @@ class Auth extends CI_Controller{
 
         $this->session->unset_userdata('user');
         $this->session->unset_userdata('shipAddress');
+        $this->cart->destroy();
         
         $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
             Logged out !

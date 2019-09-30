@@ -23,7 +23,7 @@ class Order extends CI_Controller{
 
         $query = "  SELECT * FROM `order_table` JOIN `order_identity_table`
                     ON `order_identity_table`.`order_id` = `order_table`.`id`
-                    WHERE `order_identity_table`.`user_id` = " . $this->session->userdata('user')['id'];
+                    WHERE `order_identity_table`.`user_id` = " . $this->session->userdata('user')['id'] . " ORDER BY `order_date` DESC";
 
         $data['order'] = $this->Payment_model->costumQuery($query);
         $data['status'] = [];
@@ -43,6 +43,15 @@ class Order extends CI_Controller{
         if(is_null($orderId)){
             redirect('404');
         } else{
+
+            if($this->Payment_model->getOrder($orderId)['reviewed']){
+                $this->session->set_flashdata('msg', '
+                <div class="alert alert-success" role="alert">
+                You already reviewed this order
+                </div>');
+                redirect('checkout/status/' . urlencode($orderId));
+                die;
+            }
 
             if($this->input->post('submit_bt')){
 
@@ -70,6 +79,7 @@ class Order extends CI_Controller{
                 foreach($reviewDatum as $rdtum){
                     if(!empty($rdtum['rating'])){
                         $this->Product_model->addReview($rdtum);
+                        $this->Product_model->updateOrderStatus($orderId);
                     }
                 }
 

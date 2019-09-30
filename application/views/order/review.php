@@ -39,7 +39,7 @@
                                             <i class="fas rating fa-star"></i>
                                             <i class="fas rating fa-star"></i>
                                         </div>
-                                        <input type="hidden" name="rating-<?=$op['id']?>">
+                                        <input type="hidden" name="rating-<?=$op['id']?>" required>
                                         <input type="hidden" name="productId-<?=$op['id']?>" value="<?=$op['id']?>">
                                         <div class="form-group mt-1">
                                             <label for="reviewText">Review</label>

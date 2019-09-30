@@ -39,4 +39,9 @@ class Product_model extends CI_Model{
                     WHERE `product_id` = " . $productId . " ORDER BY `date_posted` DESC";
         return $this->db->query($query)->result_array();            
     }
+
+    public function updateOrderStatus($orderId){
+        $this->db->where('id', $orderId);
+        $this->db->update('order_table', ['reviewed' => 1]);
+    }
 }

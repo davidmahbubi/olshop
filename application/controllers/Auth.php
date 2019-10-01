@@ -7,12 +7,31 @@ class Auth extends CI_Controller{
     public function __construct(){
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->helper('cookie');
     }
 
     public function index(){
 
         if(isLoggedIn()){
             redirect();
+        }
+
+        // Check cookie is valid or not
+        if(get_cookie('app_version') && get_cookie('browser_info')){
+            $data = $this->User_model->getUserById(get_cookie('app_version'));
+            if($data){
+                if(sha1($data['email']) === get_cookie('browser_info')){
+                    // Give session after cookie verify complete
+                    $data = [
+                        'id' => $data['id'],
+                        'email' => $data['email'],
+                        'role_id' => $data['role_id']
+                    ];
+                    $this->session->set_userdata(['user' => $data]);
+                    redirect('home');
+                    die;
+                }
+            }
         }
 
         $meta['title'] = 'Login';
@@ -28,16 +47,29 @@ class Auth extends CI_Controller{
 
             $email = $this->input->post('email');
             $password = $this->input->post('password');
+            $remember = $this->input->post('remember');
+
             $data = $this->User_model->getUserByEmail($email);
 
             if($data){
+
                 if(password_verify($password, $data['password'])){
+
+                    // Give session after verify complete
                     $data = [
                         'id' => $data['id'],
                         'email' => $data['email'],
                         'role_id' => $data['role_id']
                     ];
                     $this->session->set_userdata(['user' => $data]);
+
+                    // Give cookie if user checked remember me
+                    if($remember){
+
+                        // Give fake name to prevent user from hijacking
+                        $this->authSetCookie('app_version', $data['id']);
+                        $this->authSetCookie('browser_info', sha1($data['email']));
+                    }
                     redirect('home');
                     die;
                 } else{
@@ -60,6 +92,10 @@ class Auth extends CI_Controller{
             }
         }
 
+    }
+
+    private function authSetCookie($name, $value, $expiredDate = (((60 * 60) * 24) * 30)){
+        set_cookie($name, $value, $expiredDate);
     }
 
     public function register(){
@@ -97,6 +133,9 @@ class Auth extends CI_Controller{
         $this->session->unset_userdata('user');
         $this->session->unset_userdata('shipAddress');
         $this->cart->destroy();
+
+        delete_cookie('app_version');
+        delete_cookie('browser_info');
         
         $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
             Logged out !

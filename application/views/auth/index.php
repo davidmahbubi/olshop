@@ -20,7 +20,7 @@
 						</div>
 					</div>
 					<div class="form-group text-left mb-2">
-						<input id="remember" class="mr-1" type="checkbox">
+						<input id="remember" class="mr-1" type="checkbox" name="remember">
 						<label for="remember">Remember me</label>
 					</div>
 					<button type="submit" class="btn text-white dv-bg-primary bt-dv-bg-primary w-100 mb-3">Login</button>

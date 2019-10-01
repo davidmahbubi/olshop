@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<button type="submit"
-						class="btn text-white dv-bg-primary w-100 mb-3 bt-dv-bg-primary">Login</button>
+						class="btn text-white dv-bg-primary w-100 mb-3 bt-dv-bg-primary">Register</button>
 					<p class="mb-0">Already have an account ? <a href="<?=base_url('auth')?>">Login</a></p>
 				</form>
 			</div>

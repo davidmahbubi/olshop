@@ -25,7 +25,7 @@
 					</div>
 					<button type="submit" class="btn text-white dv-bg-primary bt-dv-bg-primary w-100 mb-3">Login</button>
 					<p class="mb-0">Don't have an account ? <a href="<?=base_url('auth/register')?>">here !</a></p>
-					<a href="#">Forgot your password ?</a>
+					<a href="<?=base_url('auth/forgot')?>">Forgot your password ?</a>
 					<br>
 					<a href="<?= base_url() ?>">Skip log in</a>
 				</form>

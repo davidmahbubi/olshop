@@ -129,6 +129,45 @@ class Auth extends CI_Controller{
         }
     }
 
+    public function admin_login(){
+
+        $meta['title'] = 'Admin Login';
+
+        $this->form_validation->set_rules('username','username','required|trim');
+        $this->form_validation->set_rules('password','password','required');
+
+        if($this->form_validation->run()){
+
+            $data = $this->User_model->getOwnerByUname($this->input->post('username'));
+
+            if($data){
+                if(password_verify($this->input->post('password'), $data['password'])){
+                    $userdata = [
+                        'id' => $data['id'],
+                        'name' => $data['name'],
+                        'role_id' => $data['role_id']
+                    ];
+                    $this->session->set_userdata(['admin' => $userdata]);
+                    redirect('admin');
+                } else{
+                    $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
+                    <strong>Failed !</strong> Wrong password
+                    </div>');
+                    redirect('auth/admin_login');
+                }
+            } else{
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
+                <strong>Failed !</strong> Wrong username
+                </div>');
+                redirect('auth/admin_login');
+            }
+        } else{
+            $this->load->view('templates/front-end/header', $meta);
+            $this->load->view('auth/admin');
+            $this->load->view('templates/front-end/footer');
+        }
+    }
+
     public function forgot(){
 
         $this->form_validation->set_rules('email', 'e-mail', 'required|trim|valid_email');

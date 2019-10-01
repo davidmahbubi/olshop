@@ -63,4 +63,8 @@ class User_model extends CI_Model{
         $this->db->where('id', $id);
         $this->db->update('user_table', ['password' => password_hash($password, PASSWORD_DEFAULT)]);
     }
+
+    public function getOwnerByUname($uname){
+        return $this->db->get_where('owner_table', ['username' => $uname])->row_array();
+    }
 }

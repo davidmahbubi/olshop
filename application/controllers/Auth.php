@@ -149,7 +149,8 @@ class Auth extends CI_Controller{
                     $userdata = [
                         'id' => $data['id'],
                         'name' => $data['name'],
-                        'role_id' => $data['role_id']
+                        'role_id' => $data['role_id'],
+                        'image' => $data['image']
                     ];
                     $this->session->set_userdata(['admin' => $userdata]);
                     redirect('admin');

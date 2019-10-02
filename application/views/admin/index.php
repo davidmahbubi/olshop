@@ -4,6 +4,8 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
 
+          <?= var_dump($this->session->userdata('admin')); ?>
+
           <div class="row">
           
           <!-- Earnings (Monthly) Card Example -->

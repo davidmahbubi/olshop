@@ -28,22 +28,60 @@
 
   <!-- Heading -->
   <div class="sidebar-heading">
-    Addons
+    Order
   </div>
 
-  <!-- Nav Item - Charts -->
+  <!-- Nav Item -->
   <li class="nav-item">
     <a class="nav-link" href="charts.html">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span></a>
+    <i class="fas fa-exclamation-circle fa-fw"></i>
+      <span>Pending Orders</span></a>
   </li>
 
-  <!-- Nav Item - Tables -->
+  <!-- Nav Item -->
   <li class="nav-item">
     <a class="nav-link" href="tables.html">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tables</span></a>
+      <i class="far fa-fw fa-clock"></i>
+      <span>Uncomplete Order</span></a>
   </li>
+
+  <!-- Nav Item -->
+  <li class="nav-item">
+    <a class="nav-link" href="tables.html">
+    <i class="fas fa-fw fa-shopping-cart"></i>
+      <span>All Order</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Product
+  </div>
+
+  <!-- Nav Item -->
+  <li class="nav-item">
+    <a class="nav-link" href="tables.html">
+    <i class="fas fa-plus fa-fw"></i>
+      <span>Add Product</span></a>
+  </li>
+
+   <!-- Nav Item -->
+   <li class="nav-item">
+    <a class="nav-link" href="tables.html">
+    <i class="fas fa-fw text-gray fa-boxes"></i>
+      <span>Product List</span></a>
+  </li>
+
+   <!-- Nav Item -->
+   <li class="nav-item">
+    <a class="nav-link" href="tables.html">
+    <i class="fas fa-list-ul fa-fw"></i>
+      <span>Product Category</span></a>
+  </li>
+
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

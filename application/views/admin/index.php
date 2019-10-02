@@ -4,8 +4,6 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
 
-          <?= var_dump($this->session->userdata('admin')); ?>
-
           <div class="row">
           
           <!-- Earnings (Monthly) Card Example -->
@@ -66,7 +64,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Earnings<small> (For a month)</small></div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 23.000.000,-</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $monthEarnings ?></div>
                     </div>
                     <div class="col-auto">
                     <i class="fas fa-dollar-sign fa-2x"></i>
@@ -104,10 +102,10 @@
                         <td><?= date('d F Y', $po['order_date']) ?></td>
                         <td><a href="<?=base_url()?>admin_order/view_receipt/<?=urlencode($po['order_id'])?>">View</a></td>
                         <td>
-                          <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
+                          <a href="<?=base_url()?>admin_order/approve_order/<?= urlencode($po['order_id'])?>" onclick="return confirm('Approve Order ? ');" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
                             <i class="fas fa-check"></i>
                           </a>
-                          <a href="#" class="btn btn-sm btn-danger btn-circle mb-2" title="Decline Order">
+                          <a href="<?=base_url()?>admin_order/decline_order/<?= urlencode($po['order_id'])?>" class="btn btn-sm btn-danger btn-circle mb-2" onclick="return confirm('Decline Order ? ');" title="Decline Order">
                             <i class="fas fa-trash"></i>
                           </a>
                         </td>

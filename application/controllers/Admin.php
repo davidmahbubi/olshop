@@ -21,6 +21,7 @@ class Admin extends Ci_Controller{
         $data['pendingOrder'] = $this->Order_model->getPendingOrder();
         $data['monthlyOrder'] = $this->Order_model->getMonthlyOrder(time());
         $data['zeroStock'] = $this->Product_model->getEmptyStockProduct();
+        $data['monthEarnings'] = formatPrice(array_sum($this->Order_model->getEarningsData(time())), 'Rp');
 
         $this->load->view('templates/back-end/header', $meta);
         $this->load->view('templates/back-end/sidebar');

@@ -89,7 +89,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Order Id</th>
+                      <th>Order ID</th>
                       <th>Order Date</th>
                       <th>Transfer Receipt</th>
                       <th>Action</th>

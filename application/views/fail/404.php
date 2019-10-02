@@ -35,7 +35,7 @@
 			</div>
 			<h2>Page not found</h2>
 			<p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
-			<a href="<?=base_url()?>">home page</a>
+			<a href="<?=isAdmin() ? base_url('admin') : base_url('home')?>">home page</a>
 		</div>
 	</div>
 

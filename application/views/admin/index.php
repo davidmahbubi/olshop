@@ -89,7 +89,6 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>User Name</th>
                       <th>Order Id</th>
                       <th>Order Date</th>
                       <th>Transfer Receipt</th>
@@ -97,34 +96,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Suzukaze Aoba</td>
-                      <td><a href="#">mhb-ord-123715</a></td>
-                      <td>Sept 20 2019</td>
-                      <td><a href="#">View</a></td>
-                      <td>
-                        <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
-                          <i class="fas fa-check"></i>
-                        </a>
-                        <a href="#" class="btn btn-sm btn-danger btn-circle mb-2" title="Decline Order">
-                          <i class="fas fa-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Suzukaze Aoba</td>
-                      <td><a href="#">mhb-ord-123715</a></td>
-                      <td>Sept 20 2019</td>
-                      <td><a href="#">View</a></td>
-                      <td>
-                        <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
-                          <i class="fas fa-check"></i>
-                        </a>
-                        <a href="#" class="btn btn-sm btn-danger btn-circle mb-2" title="Decline Order">
-                          <i class="fas fa-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
+                    <?php foreach($pendingOrder as $po) : ?>
+                      <tr>
+                        <td><a href="<?=base_url()?>admin_order/details/<?= urlencode($po['order_id'])?>")><?= $po['order_id']; ?></a></td>
+                        <td><?= date('d F Y', $po['order_date']) ?></td>
+                        <td><a href="<?=base_url()?>admin_order/view_receipt/<?=urlencode($po['order_id'])?>">View</a></td>
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
+                            <i class="fas fa-check"></i>
+                          </a>
+                          <a href="#" class="btn btn-sm btn-danger btn-circle mb-2" title="Decline Order">
+                            <i class="fas fa-trash"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>

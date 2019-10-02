@@ -48,15 +48,16 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Total : </span>
                 </div>
-                <input type="number" min="1" name="qty" value="1" class="form-control bt-cart" id="inputCart"
+                <input type="number" <?= $product['stock'] == 0? 'disabled':''?> min="1" name="qty" value="1" class="form-control bt-cart" id="inputCart"
                 placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 							</div>
               <?php if(isLoggedIn()) : ?>
-                <button type="button" class="btn w-100 btn-outline-primary mb-2 addToCart"><i
+                <button type="button" <?= $product['stock'] == 0? 'disabled':''  ?> class="btn w-100 btn-outline-primary mb-2 addToCart"><i
                 class="fas fa-cart-plus cart-ic" style="font-size: 30px;"></i></button>
               <?php endif; ?>
-							<button type="submit" class="btn text-white w-100 dv-bg-primary bt-dv-bg-primary">Buy</button>
+							<button type="submit" <?= $product['stock'] == 0? 'disabled':'' ?> class="btn text-white w-100 dv-bg-primary bt-dv-bg-primary">Buy</button>
 						</form>
+						<?=$product['stock'] == 0 ? '<small class="text-danger text-center" style="font-size: 15px;">This product is out of stock </small>' : ''?>
 					</div>
 				</div>
 			</div>

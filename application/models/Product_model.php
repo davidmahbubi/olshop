@@ -2,13 +2,21 @@
 
 class Product_model extends CI_Model{
 
-    public function getAllProduct(){
+    public function getAllProduct($stockFilter = true){
         $this->db->order_by('date_created', 'DESC');
-        return $this->db->get('product_table')->result_array();
+        if($stockFilter){
+            return $this->db->get_where('product_table', ['stock > ' => 0])->result_array();
+        } else{
+            return $this->db->get('product_table')->result_array();
+        }
     }
 
-    public function getProductById($id){
-        return $this->db->get_where('product_table', ['id' => $id])->row_array();
+    public function getProductById($id, $stockFilter = true){
+        if($stockFilter){
+            return $this->db->get_where('product_table', ['id' => $id, 'stock > ' => 0])->row_array();
+        } else{
+            return $this->db->get_where('product_table', ['id' => $id])->row_array();
+        }
     }
 
     public function costumQuery($query, $multiple = true){

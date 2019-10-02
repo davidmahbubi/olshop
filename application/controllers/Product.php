@@ -63,7 +63,7 @@ class Product extends CI_Controller{
 
             $this->db->order_by('date_created', 'DESC');
 
-            $res = $this->db->get('product_table')->result_array();
+            $res = $this->db->get_where('product_table', ['stock > ' => 0])->result_array();
 
             foreach($res as $i=>$r){
                 $res[$i]['price'] = formatPrice($res[$i]['price'], 'Rp');
@@ -78,7 +78,7 @@ class Product extends CI_Controller{
             echo json_encode($this->db->get('product_table')->result_array());
         } else{
             $query = $this->input->post('query');
-            $query = "SELECT * FROM `product_table` WHERE `name` LIKE '%" . $query ."%' ORDER BY `date_created` DESC";
+            $query = "SELECT * FROM `product_table` WHERE `name` LIKE '%" . $query ."%' AND `stock` > 0 ORDER BY `date_created` DESC";
             $result = $this->Product_model->costumQuery($query);
 
             foreach($result as $i=>$r){

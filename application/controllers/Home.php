@@ -18,13 +18,13 @@ class Home extends CI_Controller{
 
         // Get newest product limit 20 products
         $query = "
-            SELECT * FROM `product_table`ORDER BY date_created DESC LIMIT 20
+            SELECT * FROM `product_table` WHERE `stock` > 0 ORDER BY date_created DESC LIMIT 20
         ";
         $data['product'] = $this->Product_model->costumQuery($query);
 
         // Get product by rate limit 5
         $query = "
-            SELECT * FROM `product_table` ORDER BY rating DESC LIMIT 5
+            SELECT * FROM `product_table` WHERE `stock` > 0 ORDER BY rating DESC LIMIT 5
         ";
         $data['ratedProduct'] = $this->Product_model->costumQuery($query);
 

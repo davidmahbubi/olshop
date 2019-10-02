@@ -131,6 +131,10 @@ class Auth extends CI_Controller{
 
     public function admin_login(){
 
+        if(isAdmin()){
+            redirect('admin');
+        }
+
         $meta['title'] = 'Admin Login';
 
         $this->form_validation->set_rules('username','username','required|trim');
@@ -318,5 +322,16 @@ class Auth extends CI_Controller{
             </button>
           </div>');
         redirect('auth');  
+    }
+
+    public function admin_logout(){
+        $this->session->unset_userdata('admin');
+        $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
+            Logged out !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        redirect('auth/admin_login');  
     }
 }

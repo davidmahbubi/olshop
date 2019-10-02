@@ -12,6 +12,10 @@ class Admin extends Ci_Controller{
         }
         $meta['title'] = "Admin - MHB's Shop";
 
-        echo 'Sukses login';
+        $this->load->view('templates/back-end/header', $meta);
+        $this->load->view('templates/back-end/sidebar');
+        $this->load->view('templates/back-end/topbar');
+        $this->load->view('admin/index');
+        $this->load->view('templates/back-end/footer');
     }
 }

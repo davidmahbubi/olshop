@@ -38,8 +38,20 @@
     </div>
   </div>
 
+  <script>
+  $(function(){
+
+    const currentPage = $('.container-fluid').data('page');
+
+    $.each($('.navbar-title'), function(i, e){
+      if($(e).html().toLowerCase() == currentPage.toLowerCase()){
+        $(e).parent().parent().addClass('active');
+      }
+    });
+  })
+  </script>
+
   <!-- Bootstrap core JavaScript-->
-  <script src="<?=base_url()?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?=base_url()?>assets/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->

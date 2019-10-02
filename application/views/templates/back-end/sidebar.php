@@ -15,11 +15,11 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item active">
-    <a class="nav-link" href="index.html">
+  <!-- Nav Item -->
+  <li class="nav-item">
+    <a class="nav-link" href="<?=base_url('admin')?>">
       <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span></a>
+      <span class="navbar-title">Dashboard</span></a>
   </li>
 
   <!-- Divider -->
@@ -35,21 +35,21 @@
   <li class="nav-item">
     <a class="nav-link" href="charts.html">
     <i class="fas fa-exclamation-circle fa-fw"></i>
-      <span>Pending Orders</span></a>
+      <span class="navbar-title">Pending Orders</span></a>
   </li>
 
   <!-- Nav Item -->
   <li class="nav-item">
     <a class="nav-link" href="tables.html">
       <i class="far fa-fw fa-clock"></i>
-      <span>Uncomplete Order</span></a>
+      <span class="navbar-title">Uncomplete Order</span></a>
   </li>
 
   <!-- Nav Item -->
   <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="<?=base_url('AdminOrder')?>">
     <i class="fas fa-fw fa-shopping-cart"></i>
-      <span>All Order</span></a>
+      <span class="navbar-title">All Order</span></a>
   </li>
 
   <!-- Divider -->
@@ -65,21 +65,21 @@
   <li class="nav-item">
     <a class="nav-link" href="tables.html">
     <i class="fas fa-plus fa-fw"></i>
-      <span>Add Product</span></a>
+      <span class="navbar-title">Add Product</span></a>
   </li>
 
    <!-- Nav Item -->
    <li class="nav-item">
     <a class="nav-link" href="tables.html">
     <i class="fas fa-fw text-gray fa-boxes"></i>
-      <span>Product List</span></a>
+      <span class="navbar-title">Product List</span></a>
   </li>
 
    <!-- Nav Item -->
    <li class="nav-item">
     <a class="nav-link" href="tables.html">
     <i class="fas fa-list-ul fa-fw"></i>
-      <span>Product Category</span></a>
+      <span class="navbar-title">Product Category</span></a>
   </li>
 
 

@@ -19,6 +19,10 @@ class Product_model extends CI_Model{
         }
     }
 
+    public function getEmptyStockProduct(){
+        return $this->db->get_where('product_table', ['stock' => 0])->result_array();
+    }
+
     public function getAllCategories(){
         return $this->db->get('product_categories_table')->result_array();
     }

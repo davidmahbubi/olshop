@@ -13,7 +13,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Order totals <small>In a month</small></div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">134 Orders</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($monthlyOrder) ?> Orders</div>
                     </div>
                     <div class="col-auto">
                     <i class="fas fa-2x text-gray fa-boxes"></i>
@@ -30,7 +30,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pending orders</small></div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">5 Orders</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($pendingOrder) ?> Orders</div>
                     </div>
                     <div class="col-auto">
                     <i class="fas fa-exclamation-circle fa-2x"></i>
@@ -47,7 +47,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Need re-stock</small></div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">7 Products</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($zeroStock) ?> Products</div>
                     </div>
                     <div class="col-auto">
                     <i class="fas fa-truck-loading fa-2x"></i>
@@ -91,6 +91,7 @@
                     <tr>
                       <th>User Name</th>
                       <th>Order Id</th>
+                      <th>Order Date</th>
                       <th>Transfer Receipt</th>
                       <th>Action</th>
                     </tr>
@@ -99,6 +100,7 @@
                     <tr>
                       <td>Suzukaze Aoba</td>
                       <td><a href="#">mhb-ord-123715</a></td>
+                      <td>Sept 20 2019</td>
                       <td><a href="#">View</a></td>
                       <td>
                         <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
@@ -112,6 +114,7 @@
                     <tr>
                       <td>Suzukaze Aoba</td>
                       <td><a href="#">mhb-ord-123715</a></td>
+                      <td>Sept 20 2019</td>
                       <td><a href="#">View</a></td>
                       <td>
                         <a href="#" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">

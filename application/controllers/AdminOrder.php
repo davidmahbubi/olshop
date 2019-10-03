@@ -11,6 +11,8 @@ class AdminOrder extends CI_Controller{
             die;
         }
         $this->load->model('Order_model');
+        $this->load->model('Payment_model');
+        $this->load->model('User_model');
     }
 
     public function index(){
@@ -34,5 +36,25 @@ class AdminOrder extends CI_Controller{
         } else{
             redirect('404');
         }
+    }
+
+    public function details($orderId = NULL){
+        
+        if(is_null($orderId)){
+            redirect('404');
+            die;
+        }
+
+        $meta['title'] = 'Product Details';
+
+        $data['order'] = $this->Order_model->getWholeOrderById($orderId);
+        $data['ordered_product'] = $this->Payment_model->getOrderedProductByOid($data['order']['order_id']);
+        $data['account'] = $this->User_model->getUserById($data['order']['user_id']);
+
+        $this->load->view('templates/back-end/header', $meta);
+        $this->load->view('templates/back-end/sidebar');
+        $this->load->view('templates/back-end/topbar');
+        $this->load->view('admin_order/details', $data);
+        $this->load->view('templates/back-end/footer');
     }
 }

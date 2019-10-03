@@ -46,6 +46,15 @@ class Order_model extends CI_Model{
         $this->db->join('order_identity_table', 'order_id = `order_table`.`id`');
         $this->db->join('order_status_table', 'order_status = `order_status_table`.`id`');
         $this->db->order_by('order_date', $sortDate);
-        return $this->db->get('order_table')->result_array();
+        return $this->getAllOrder();
+    }
+
+    public function getWholeOrderById($id){
+        $this->db->join('order_identity_table', 'order_id = order_table.id');
+        $this->db->join('courier_table', 'courier_id = courier_table.id');
+        $this->db->join('order_status_table', 'order_status = order_status_table.id');
+        $this->db->where('order_id', $id);
+        $this->db->order_by('order_date', 'DESC');
+        return $this->db->get('order_table')->row_array();
     }
 }

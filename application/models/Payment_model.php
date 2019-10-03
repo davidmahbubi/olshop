@@ -69,6 +69,7 @@ class Payment_model extends CI_Model{
     }
 
     public function getOrderedProductByOid($orderId){
+        $this->db->join('product_table', 'id_product = product_table.id');
         return $this->db->get_where('ordered_product_table', ['order_id' => $orderId])->result_array();
     }
 

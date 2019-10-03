@@ -50,11 +50,52 @@ class AdminOrder extends CI_Controller{
         $data['order'] = $this->Order_model->getWholeOrderById($orderId);
         $data['ordered_product'] = $this->Payment_model->getOrderedProductByOid($data['order']['order_id']);
         $data['account'] = $this->User_model->getUserById($data['order']['user_id']);
+        $data['order_status'] = $this->Order_model->getAllStatus();
 
-        $this->load->view('templates/back-end/header', $meta);
-        $this->load->view('templates/back-end/sidebar');
-        $this->load->view('templates/back-end/topbar');
-        $this->load->view('admin_order/details', $data);
-        $this->load->view('templates/back-end/footer');
+        if(isset($_POST['updateAirwayBill'])){
+            $this->Order_model->addAirwayBill($orderId, htmlspecialchars($this->input->post('airwayBill')));
+            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Airway Bill Updated !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+            redirect('AdminOrder/details/' . $orderId);
+        }
+
+        if($this->input->post('orderStatus')){
+
+            if($this->input->post('airwayBill')){
+                $this->Order_model->updateStatus($orderId, htmlspecialchars($this->input->post('orderStatus')));
+                $this->Order_model->addAirwayBill($orderId, htmlspecialchars($this->input->post('airwayBill')));
+            }else{
+                $this->Order_model->updateStatus($orderId, htmlspecialchars($this->input->post('orderStatus')));
+            }
+            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Details Updated !
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+            redirect('AdminOrder/details/' . $orderId);
+        } else{
+            $this->load->view('templates/back-end/header', $meta);
+            $this->load->view('templates/back-end/sidebar');
+            $this->load->view('templates/back-end/topbar');
+            $this->load->view('admin_order/details', $data);
+            $this->load->view('templates/back-end/footer');
+        }
+
+    }
+
+    public function receipt($orderId = NULL){
+
+        if(is_null($orderId)){
+            redirect('404');
+            die;
+        }
+
+        $data['order'] = $this->Order_model->getWholeOrderById($orderId);
+        $this->load->view('admin_order/receipt', $data);
     }
 }

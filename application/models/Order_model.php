@@ -57,4 +57,18 @@ class Order_model extends CI_Model{
         $this->db->order_by('order_date', 'DESC');
         return $this->db->get('order_table')->row_array();
     }
+
+    public function getAllStatus(){
+        return $this->db->get('order_status_table')->result_array();
+    }
+
+    public function updateStatus($orderId, $orderStatus){
+        $this->db->where('id', $orderId);
+        $this->db->update('order_table', ['order_status' => $orderStatus]);
+    }
+
+    public function addAirwayBill($orderId, $airwayBill){
+        $this->db->where('order_id', $orderId);
+        $this->db->update('order_identity_table', ['airway_bill' => $airwayBill]);
+    }
 }

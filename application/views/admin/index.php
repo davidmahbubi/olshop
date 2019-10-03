@@ -96,7 +96,7 @@
                       <tr>
                         <td><a href="<?=base_url()?>AdminOrder/details/<?= urlencode($po['order_id'])?>")><?= $po['order_id']; ?></a></td>
                         <td><?= date('d F Y', $po['order_date']) ?></td>
-                        <td><a href="<?=base_url()?>AdminOrder/view_receipt/<?=urlencode($po['order_id'])?>">View</a></td>
+                        <td><a href="<?=base_url()?>AdminOrder/receipt/<?=urlencode($po['order_id'])?>">View</a></td>
                         <td>
                           <a href="<?=base_url()?>AdminOrder/approve_order/<?= urlencode($po['order_id'])?>" onclick="return confirm('Approve Order ? ');" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
                             <i class="fas fa-check"></i>

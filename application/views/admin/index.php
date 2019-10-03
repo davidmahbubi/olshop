@@ -98,14 +98,14 @@
                   <tbody>
                     <?php foreach($pendingOrder as $po) : ?>
                       <tr>
-                        <td><a href="<?=base_url()?>admin_order/details/<?= urlencode($po['order_id'])?>")><?= $po['order_id']; ?></a></td>
+                        <td><a href="<?=base_url()?>AdminOrder/details/<?= urlencode($po['order_id'])?>")><?= $po['order_id']; ?></a></td>
                         <td><?= date('d F Y', $po['order_date']) ?></td>
-                        <td><a href="<?=base_url()?>admin_order/view_receipt/<?=urlencode($po['order_id'])?>">View</a></td>
+                        <td><a href="<?=base_url()?>AdminOrder/view_receipt/<?=urlencode($po['order_id'])?>">View</a></td>
                         <td>
-                          <a href="<?=base_url()?>admin_order/approve_order/<?= urlencode($po['order_id'])?>" onclick="return confirm('Approve Order ? ');" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
+                          <a href="<?=base_url()?>AdminOrder/approve_order/<?= urlencode($po['order_id'])?>" onclick="return confirm('Approve Order ? ');" class="btn btn-sm btn-success btn-circle mb-2" title="Approve Order">
                             <i class="fas fa-check"></i>
                           </a>
-                          <a href="<?=base_url()?>admin_order/decline_order/<?= urlencode($po['order_id'])?>" class="btn btn-sm btn-danger btn-circle mb-2" onclick="return confirm('Decline Order ? ');" title="Decline Order">
+                          <a href="<?=base_url()?>AdminOrder/decline_order/<?= urlencode($po['order_id'])?>" class="btn btn-sm btn-danger btn-circle mb-2" onclick="return confirm('Decline Order ? ');" title="Decline Order">
                             <i class="fas fa-trash"></i>
                           </a>
                         </td>

@@ -2,7 +2,8 @@
 
 class Order_model extends CI_Model{
 
-    public function getAllOrder(){
+    public function getAllOrder($sortDate = "DESC"){
+        $this->db->order_by('order_date', $sortDate);
         return $this->db->get('order_table')->result_array();
     }
 
@@ -39,5 +40,12 @@ class Order_model extends CI_Model{
         } else{
             return $this->db->query($query)->row_array();
         }
+    }
+
+    public function getWholeOrder($sortDate = 'DESC'){
+        $this->db->join('order_identity_table', 'order_id = `order_table`.`id`');
+        $this->db->join('order_status_table', 'order_status = `order_status_table`.`id`');
+        $this->db->order_by('order_date', $sortDate);
+        return $this->db->get('order_table')->result_array();
     }
 }

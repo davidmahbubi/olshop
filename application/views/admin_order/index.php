@@ -3,7 +3,24 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800">All Order</h1>
-    <div class="row">
+<div class="row">
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Order totals</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($allOrder) ?> Orders</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-2x text-gray fa-boxes"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
         <div class="col-lg">
             <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -31,7 +48,7 @@
                   <tbody>
                     <?php foreach($allOrder as $aod): ?>
                       <tr>
-                        <td><a href="#"><?= $aod['order_id'] ?></a></td>
+                        <td><a href="<?=base_url()?>AdminOrder/details/<?=$aod['order_id']?>"><?= $aod['order_id'] ?></a></td>
                         <td><?= $aod['receiver_name'] ?></td>
                         <td><?= date('d F Y', $aod['order_date']) ?></td>
                         <td><?= $aod['status_name'] ?></td>

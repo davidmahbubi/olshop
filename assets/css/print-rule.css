@@ -14,4 +14,7 @@
 	input {
 		display: none !important;
 	}
+	.alert {
+		display: none !important;
+	}
 }

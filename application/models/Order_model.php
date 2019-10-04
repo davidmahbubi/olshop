@@ -7,9 +7,12 @@ class Order_model extends CI_Model{
         return $this->db->get('order_table')->result_array();
     }
 
-    public function getPendingOrder(){
+    public function getPendingOrder($withCourier = false, $orderBy = 'order_date', $orderValue = 'ASC'){
+        $this->db->order_by($orderBy, $orderValue); // Order `pending order` as date_order ascending, mean past first
         $this->db->join('order_identity_table', 'order_id = order_table.id');
-        $this->db->order_by('order_date', 'ASC'); // Order `pending order` as date_order ascending, mean past first
+        if($withCourier){
+            $this->db->join('courier_table', 'courier_id = courier_table.id');
+        }
         return $this->db->get_where('order_table', ['order_status' => 1])->result_array();
     }
 

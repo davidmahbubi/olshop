@@ -1,5 +1,5 @@
 <!-- Begin Page Content -->
-<div class="container-fluid" data-page="all order">
+<div class="container-fluid" data-page="">
 	<!-- Page Heading -->
 	<h1 class="h3 mb-4 text-gray-800"><a href="#" onclick="history.go(-1)">
 			< Ordered Details</a> </h1> <?= $this->session->flashdata('msg'); ?> <div

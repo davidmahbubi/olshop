@@ -85,6 +85,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>#</th>
                       <th>Order ID</th>
                       <th>Order Date</th>
                       <th>Transfer Receipt</th>
@@ -92,8 +93,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach($pendingOrder as $po) : ?>
+                    <?php foreach($pendingOrder as $i=>$po) : ?>
                       <tr>
+                        <td><?= ++$i; ?></td>
                         <td><a href="<?=base_url()?>AdminOrder/details/<?= urlencode($po['order_id'])?>")><?= $po['order_id']; ?></a></td>
                         <td><?= date('d F Y', $po['order_date']) ?></td>
                         <td><a href="<?=base_url()?>AdminOrder/receipt/<?=urlencode($po['order_id'])?>">View</a></td>

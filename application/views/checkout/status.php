@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <h3>Your order status :</h3>
-                  <h2 class="dv-bg-primary text-white pt-2 pb-2 rounded">
+                  <h2 class="<?=$orderStatus['id'] == 7 ? 'bg-danger':'dv-bg-primary'?> text-white pt-2 pb-2 rounded">
                     <?= $orderStatus['status_name'] ?>
                   </h2>
                   <?php if($orderStatus['id'] == 6) : ?>

@@ -85,7 +85,20 @@ class AdminOrder extends CI_Controller{
             $this->load->view('admin_order/details', $data);
             $this->load->view('templates/back-end/footer');
         }
+    }
 
+    public function pendingOrder(){
+
+        $meta['title'] = 'Product Details';
+
+        $data['pendingOrder'] = $this->Order_model->getPendingOrder(true);
+
+        $this->load->view('templates/back-end/header', $meta);
+        $this->load->view('templates/back-end/sidebar');
+        $this->load->view('templates/back-end/topbar');
+        $this->load->view('admin_order/pending', $data);
+        $this->load->view('templates/back-end/footer');
+        
     }
 
     public function receipt($orderId = NULL){
@@ -97,5 +110,52 @@ class AdminOrder extends CI_Controller{
 
         $data['order'] = $this->Order_model->getWholeOrderById($orderId);
         $this->load->view('admin_order/receipt', $data);
+    }
+
+    public function approve_order($orderId = NULL){
+        
+        if(is_null($orderId)){
+            redirect('404');
+            die;
+        }
+
+        $this->Order_model->updateStatus($orderId, 2);
+        $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Order Approved
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+        redirect('AdminOrder/details/' . $orderId);
+    }
+
+    public function decline_order($orderId = NULL){
+
+        if(is_null($orderId)){
+            redirect('404');
+            die;
+        }
+
+        $this->Order_model->updateStatus($orderId, 7);
+        $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Order Declined
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+        redirect('AdminOrder/pendingorder');
+    }
+
+    public function orderByAjax(){
+
+        if(!$this->input->post()){
+            echo json_encode(['stats' => false]);
+        } else{
+            $data = $this->Order_model->getPendingOrder(true, $this->input->post('order_by'), 'ASC');
+            foreach($data as $i=>$d){
+                $data[$i]['order_date'] = date('d F Y', $d['order_date']);
+            }
+            echo json_encode($data);
+        }
     }
 }

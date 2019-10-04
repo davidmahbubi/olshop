@@ -1,0 +1,17 @@
+@media print {
+	button {
+		display: none !important;
+	}
+	.navbar-nav {
+		display: none !important;
+	}
+	a {
+		text-decoration: none !important;
+	}
+	.scroll-to-top {
+		display: none !important;
+	}
+	input {
+		display: none !important;
+	}
+}

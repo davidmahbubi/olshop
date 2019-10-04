@@ -2,7 +2,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website <?= date('Y' , time()) ?></span>
+            <span>Copyright &copy; MHB's Project <?= date('Y' , time()) ?></span>
           </div>
         </div>
       </footer>

@@ -36,7 +36,7 @@
 			<!-- DataTales Example -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-danger">Showing All Pending Orders</h6>
+					<h6 class="m-0 font-weight-bold text-danger tableTitle">Showing All Pending Orders</h6>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -104,7 +104,6 @@
                 method: 'post',
                 dataType: 'json',
                 success: function(result){
-                    console.log(result);
                     $('.pendingOrderTableBody').empty();
                     $.each(result, function(i, e){
                         $('.pendingOrderTableBody').append('<tr><td>' + ++i + '</td><td><a href="'+ link +'AdminOrder/details/'+ e.order_id +'">'+ e.order_id +'</a></td><td>'+ e.order_date +'</td><td><a href="'+link+'AdminOrder/receipt/'+e.order_id+'">View</a></td><td>'+e.name+'</td><td><a href="'+link+'AdminOrder/approve_order/'+e.order_id+'"class="btn btn-sm mr-1 btn-success btn-circle mb-2" onclick="return confirm("Approve Order ? ");" title="Approve Order"><i class="fas fa-check"></i></a><a href="'+link+'AdminOrder/decline_order/'+e.order_id+'"class="btn btn-sm btn-danger btn-circle mb-2"onclick="return confirm("Decline Order ? ");" title="Decline Order"><i class="fas fa-trash"></i></a></td></tr>');

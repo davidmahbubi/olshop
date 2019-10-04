@@ -70,7 +70,7 @@
 
    <!-- Nav Item -->
    <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="<?=base_url()?>AdminProduct">
     <i class="fas fa-fw text-gray fa-boxes"></i>
       <span class="navbar-title">Product List</span></a>
   </li>

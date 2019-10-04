@@ -158,4 +158,34 @@ class AdminOrder extends CI_Controller{
             echo json_encode($data);
         }
     }
+
+    public function uncomplete(){
+
+        $meta['title'] = 'Product Details';
+
+        $data['uncompleteOrder'] = $this->Order_model->getUncompleteOrder();
+        $data['proccessOwner'] = [];
+        $data['onTheWay'] = [];
+        $data['declined'] = [];
+
+        foreach($data['uncompleteOrder'] as $uc){
+            switch($uc['order_status']){
+                case 2 :
+                    $data['proccessOwner'][] = $uc;
+                    break;
+                case 3:
+                    $data['onTheWay'][] = $uc;
+                    break;
+                case 7:
+                    $data['declined'][] = $uc;
+                    break;    
+            }
+        }
+
+        $this->load->view('templates/back-end/header', $meta);
+        $this->load->view('templates/back-end/sidebar');
+        $this->load->view('templates/back-end/topbar');
+        $this->load->view('admin_order/uncomplete', $data);
+        $this->load->view('templates/back-end/footer');
+    }
 }

@@ -40,7 +40,7 @@
 
   <!-- Nav Item -->
   <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="<?=base_url()?>AdminOrder/uncomplete">
       <i class="far fa-fw fa-clock"></i>
       <span class="navbar-title">Uncomplete Order</span></a>
   </li>

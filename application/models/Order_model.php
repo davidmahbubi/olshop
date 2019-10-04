@@ -74,4 +74,9 @@ class Order_model extends CI_Model{
         $this->db->where('order_id', $orderId);
         $this->db->update('order_identity_table', ['airway_bill' => $airwayBill]);
     }
+
+    public function getUncompleteOrder(){
+        $this->db->where('order_status !=' , 6);
+        return $this->getWholeOrder();
+    }
 }

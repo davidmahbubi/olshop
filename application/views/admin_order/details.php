@@ -11,6 +11,7 @@
                <li> Phone Number : <?=$order['phone_number']?></li>
                <li> Complete Address : <?=$order['complete_address']?></li>
                <li> Postal Code : <?=$order['postal']?></li>
+               <li> Order Date : <?=date('d F Y H:i:s', $order['order_date'])?></li>
                <li> Transfer Receipt Image : <a href="<?=base_url()?>AdminOrder/receipt/<?=$order['order_id']?>">View</a></li>
                <li> Order Account : <a href="#"><?= $account['first_name' ]. " " . $account['last_name'] ?></a></li>
                <li> Courier : <?=$order['name']?></li>

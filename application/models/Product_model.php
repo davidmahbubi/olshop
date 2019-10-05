@@ -35,6 +35,24 @@ class Product_model extends CI_Model{
         return $this->db->get('product_categories_table')->result_array();
     }
 
+    public function getCategoryById($id){
+        return $this->db->get_where('product_categories_table', ['id' => $id])->row_array();
+    }
+
+    public function editCategory($id, $name){
+        $this->db->where('id', $id);
+        return $this->db->update('product_categories_table', ['name' => $name]);
+    }
+
+    public function addCategory($name){
+        return $this->db->insert('product_categories_table', ['name' => $name]);
+    }
+
+    public function deleteCategory($id){
+        $this->db->where('id', $id);
+        return $this->db->delete('product_categories_table');
+    }
+
     public function addReview($data){
         $data = [
             'user_id' => $data['userId'],

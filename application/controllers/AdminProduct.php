@@ -92,11 +92,12 @@ class AdminProduct extends CI_Controller{
     public function productCategory(){
 
         $meta['title'] = "Product Categories";
+        $data['categories'] = $this->Product_model->getAllCategories();
 
         $this->load->view('templates/back-end/header', $meta);
         $this->load->view('templates/back-end/sidebar');
         $this->load->view('templates/back-end/topbar');
-        $this->load->view('admin_product/categories');
+        $this->load->view('admin_product/categories', $data);
         $this->load->view('templates/back-end/footer');
 
     }
@@ -183,6 +184,52 @@ class AdminProduct extends CI_Controller{
                 </button>
                 </div>');
                 redirect('AdminProduct/details/' . $id);
+            }
+        }
+    }
+
+    public function categoryAjax(){
+        if(!$this->input->post('category_id')){
+            redirect('404');
+        } else{
+            $category = $this->Product_model->getCategoryById($this->input->post('category_id'));
+            echo json_encode($category);
+        }
+    }
+
+    public function editCategory(){
+        if(!$this->input->post()){
+            redirect('404');
+        } else{
+            $edit = $this->Product_model->editCategory($this->input->post('id'), $this->input->post('name'));
+            if($edit){
+                echo json_encode(['stats' => true, 'name' => $this->input->post('name')]);
+            } else{
+                echo json_encode(['stats' => false]);
+            }
+        }
+    }
+
+    public function addCategory(){
+        if(!$this->input->post()){
+            redirect('404');
+        } else{
+            if($this->Product_model->addCategory($this->input->post('name'))){
+                echo json_encode(['stats' => true]);
+            } else{
+                echo json_encode(['stats' => false]);
+            }
+        }
+    }
+
+    public function deleteCategory(){
+        if(!$this->input->post()){
+            redirect('404');
+        } else{
+            if($this->Product_model->deleteCategory($this->input->post('id'))){
+                echo json_encode(['stats' => true]);
+            } else{
+                echo json_encode(['stats' => false]);
             }
         }
     }

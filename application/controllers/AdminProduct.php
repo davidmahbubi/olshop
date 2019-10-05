@@ -46,31 +46,44 @@ class AdminProduct extends CI_Controller{
         $this->form_validation->set_rules('description', 'description' , 'required|trim');
 
         if(!$this->form_validation->run()){
+
             $this->load->view('templates/back-end/header', $meta);
             $this->load->view('templates/back-end/sidebar');
             $this->load->view('templates/back-end/topbar');
             $this->load->view('admin_product/add', $data);
             $this->load->view('templates/back-end/footer');
+
         } else{
+
+            // Upload image first, then after image success uploaded, product identity will be processed
             $uploadImage = $this->uploadProductImage();
+
             if($uploadImage['stats']){
+
                 $data = $this->input->post();
+                
+                // Merging new image file name to array data
                 $data['img'] = $uploadImage['data']['file_name'];
+
                 $this->Product_model->addProduct($data);
+
                 $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
                 New Product Posted !
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
                 </div>');
+
                 redirect('AdminProduct/addproduct');
             } else{
+
                 $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 '. $uploadImage['data'] .'
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
                 </div>');
+                
                 redirect('AdminProduct/addproduct');
             }
         }

@@ -62,6 +62,21 @@ class Product_model extends CI_Model{
         return $this->db->get_where('ordered_product_table', ['id_product' => $id])->row_array();
     }
 
+    public function addProduct($data){
+        $data = [
+            "name" => htmlspecialchars($data['name']),
+            "description" => htmlspecialchars($data['description']),
+            "price" => htmlspecialchars($data['price']),
+            "category_id" => htmlspecialchars($data['category_id']),
+            "img" => htmlspecialchars($data['img']),
+            "stock" => htmlspecialchars($data['stock']),
+            "rating" => 0,
+            "weight" => htmlspecialchars($data['weight']),
+            "date_created" => time()
+        ];
+        $this->db->insert('product_table', $data);
+    }
+
     public function updateProduct($id, $data){
         $data = [
             'name' => htmlspecialchars($data['name']),

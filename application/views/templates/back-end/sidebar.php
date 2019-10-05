@@ -63,7 +63,7 @@
 
   <!-- Nav Item -->
   <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="<?=base_url()?>AdminProduct/addproduct">
     <i class="fas fa-plus fa-fw"></i>
       <span class="navbar-title">Add Product</span></a>
   </li>
@@ -77,7 +77,7 @@
 
    <!-- Nav Item -->
    <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="<?=base_url()?>AdminProduct/productcategory">
     <i class="fas fa-list-ul fa-fw"></i>
       <span class="navbar-title">Product Category</span></a>
   </li>

@@ -34,6 +34,60 @@ class AdminProduct extends CI_Controller{
         $this->load->view('templates/back-end/footer');
     }
 
+    public function addProduct(){
+
+        $meta['title'] = "Add Product";
+        $data['category'] = $this->Product_model->getAllCategories();
+
+        $this->form_validation->set_rules('name', 'product name' , 'required|trim');
+        $this->form_validation->set_rules('price', 'price' , 'required|numeric|trim');
+        $this->form_validation->set_rules('stock', 'stock' , 'required|numeric|trim');
+        $this->form_validation->set_rules('weight', 'wight' , 'required|numeric|trim');
+        $this->form_validation->set_rules('description', 'description' , 'required|trim');
+
+        if(!$this->form_validation->run()){
+            $this->load->view('templates/back-end/header', $meta);
+            $this->load->view('templates/back-end/sidebar');
+            $this->load->view('templates/back-end/topbar');
+            $this->load->view('admin_product/add', $data);
+            $this->load->view('templates/back-end/footer');
+        } else{
+            $uploadImage = $this->uploadProductImage();
+            if($uploadImage['stats']){
+                $data = $this->input->post();
+                $data['img'] = $uploadImage['data']['file_name'];
+                $this->Product_model->addProduct($data);
+                $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                New Product Posted !
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('AdminProduct/addproduct');
+            } else{
+                $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                '. $uploadImage['data'] .'
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('AdminProduct/addproduct');
+            }
+        }
+    }
+
+    public function productCategory(){
+
+        $meta['title'] = "Product Categories";
+
+        $this->load->view('templates/back-end/header', $meta);
+        $this->load->view('templates/back-end/sidebar');
+        $this->load->view('templates/back-end/topbar');
+        $this->load->view('admin_product/categories');
+        $this->load->view('templates/back-end/footer');
+
+    }
+
     public function details($id = NULL){
 
         if(is_null($id)){
@@ -45,14 +99,19 @@ class AdminProduct extends CI_Controller{
             $this->form_validation->set_rules('name', 'product name' , 'required|trim');
             $this->form_validation->set_rules('price', 'price' , 'required|numeric|trim');
             $this->form_validation->set_rules('stock', 'stock' , 'required|numeric|trim');
-            $this->form_validation->set_rules('weight', 'wight' , 'required|numeric|trim');
+            $this->form_validation->set_rules('weight', 'weight' , 'required|numeric|trim');
             $this->form_validation->set_rules('description', 'description' , 'required|trim');
 
             if(!$this->form_validation->run()){
 
                 $meta['title'] = 'Product Details';
                 $data['product'] = $this->Product_model->getProductById($id, false);
-                $data['buyTimes'] = count($this->Product_model->getBuyedProduct($id));
+                $data['buyTimes'] = $this->Product_model->getBuyedProduct($id);
+                if(is_null($data['buyTimes'])){
+                    $data['buyTimes'] = 0;
+                } else{
+                    $data['buyTimes'] = count($data['buyTimes']);
+                }
                 $data['categoryResult'] = $this->Product_model->getAllCategories();
                 $data['category'] = [];
                 // Replace original default numeric index from result of db query, so the category id will be index of categoriy array

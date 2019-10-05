@@ -34,6 +34,32 @@ class AdminProduct extends CI_Controller{
         $this->load->view('templates/back-end/footer');
     }
 
+    public function details($id = NULL){
+        if(is_null($id)){
+            redirect('404');
+        } else{
+
+            $meta['title'] = 'Product Details';
+            $data['product'] = $this->Product_model->getProductById($id, false);
+            $data['buyTimes'] = count($this->Product_model->getBuyedProduct($id));
+            $data['categoryResult'] = $this->Product_model->getAllCategories();
+            $data['category'] = [];
+
+            // Replace original default numeric index from result of db query, so the category id will be index of categoriy array
+
+            foreach($data['categoryResult'] as $c){
+                $data['category'][$c['id']] = $c;
+            }
+            unset($data['categoryResult']);
+
+            $this->load->view('templates/back-end/header', $meta);
+            $this->load->view('templates/back-end/sidebar');
+            $this->load->view('templates/back-end/topbar');
+            $this->load->view('admin_product/details', $data);
+            $this->load->view('templates/back-end/footer');
+        }
+    }
+
     public function search(){
         if(!$this->input->post('query')){
             redirect('404');

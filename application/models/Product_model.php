@@ -57,4 +57,8 @@ class Product_model extends CI_Model{
         $this->db->where('id', $orderId);
         $this->db->update('order_table', ['reviewed' => 1]);
     }
+
+    public function getBuyedProduct($id){
+        return $this->db->get_where('ordered_product_table', ['id_product' => $id])->row_array();
+    }
 }

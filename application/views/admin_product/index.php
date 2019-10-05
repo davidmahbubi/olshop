@@ -79,6 +79,15 @@
 						<input type="text" value="By Date" disabled class="form-control"
 							aria-label="Text input with radio button">
 					</div>
+					<div class="input-group mb-2">
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<input value="rating" type="radio" name="order">
+							</div>
+						</div>
+						<input type="text" value="Rating" disabled class="form-control"
+							aria-label="Text input with radio button">
+					</div>
 				</div>
 			</div>
 		</div>

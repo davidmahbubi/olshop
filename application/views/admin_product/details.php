@@ -32,7 +32,7 @@
 					</ul>
 					<button class="btn btn-primary w-100 mt-2" data-toggle="modal"
 						data-target="#editProductDetails">Edit Product Details</button>
-					<a href="<?=base_url()?>AdminProduct/deleteproduct/<?=$product['id']?>" class="btn btn-danger w-100 mt-2" onclick="return confirm('Are you sure ?')">Delete Product</a>	
+					<a href="<?=base_url()?>AdminProduct/deleteproduct/<?=$product['id']?>" class="btn btn-danger w-100 mt-2" id="btDelete" onclick="return confirm('Are you sure ?')">Delete Product</a>	
 				</div>
 </div>
 <div class="row mt-3">

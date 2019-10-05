@@ -17,4 +17,7 @@
 	.alert {
 		display: none !important;
 	}
+	#btDelete {
+		display: none !important;
+	}
 }

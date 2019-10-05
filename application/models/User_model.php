@@ -67,4 +67,20 @@ class User_model extends CI_Model{
     public function getOwnerByUname($uname){
         return $this->db->get_where('owner_table', ['username' => $uname])->row_array();
     }
+
+    public function getOwnerById($id){
+        return $this->db->get_where('owner_table', ['id' => $id])->row_array();
+    }
+
+    public function updateOwner($data, $withImage = false){
+        $fileName = $data['image'];
+        $data = [
+            'name' => htmlspecialchars($data['name']),
+            'username' => htmlspecialchars($data['username']),
+        ];
+        if($withImage){
+            $data['image'] = $fileName;
+        }
+        $this->db->update('owner_table', $data);
+    }
 }

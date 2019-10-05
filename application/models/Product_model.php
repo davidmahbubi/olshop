@@ -61,4 +61,27 @@ class Product_model extends CI_Model{
     public function getBuyedProduct($id){
         return $this->db->get_where('ordered_product_table', ['id_product' => $id])->row_array();
     }
+
+    public function updateProduct($id, $data){
+        $data = [
+            'name' => htmlspecialchars($data['name']),
+            'description' => htmlspecialchars($data['description']),
+            'price' => htmlspecialchars($data['price']),
+            'category_id' => htmlspecialchars($data['category_id']),
+            'stock' => htmlspecialchars($data['stock']),
+            'weight' => htmlspecialchars($data['weight'])
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('product_table', $data);
+    }
+
+    public function updateProductImg($id, $oldImgName, $newImgName){
+        $this->db->where('id', $id);
+        if($this->db->update('product_table', ['img' => $newImgName])){
+            unlink('./assets/img/product/' . $oldImgName);
+        } else{
+            echo 'Failed to update image name in database';
+            die;
+        }
+    }
 }

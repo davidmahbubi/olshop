@@ -53,13 +53,18 @@ class Product_model extends CI_Model{
         return $this->db->query($query)->result_array();            
     }
 
+    public function deleteProduct($id){
+        $this->db->where('id', $id);
+        $this->db->delete('product_table');
+    }
+
     public function updateOrderStatus($orderId){
         $this->db->where('id', $orderId);
         $this->db->update('order_table', ['reviewed' => 1]);
     }
 
     public function getBuyedProduct($id){
-        return $this->db->get_where('ordered_product_table', ['id_product' => $id])->row_array();
+        return $this->db->get_where('ordered_product_table', ['id_product' => $id])->result_array();
     }
 
     public function addProduct($data){

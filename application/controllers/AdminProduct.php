@@ -174,6 +174,21 @@ class AdminProduct extends CI_Controller{
         }
     }
 
+    public function deleteProduct($id = NULL){
+        if(is_null($id)){
+            redirect('404');
+        } else{
+            $this->Product_model->deleteProduct($id);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Product Deleted
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>');
+            redirect('AdminProduct');
+        }
+    }
+
     private function uploadProductImage(){
 
         $config['upload_path'] = './assets/img/product/';

@@ -93,6 +93,7 @@
 		</div>
 		<div class="col-lg-9">
 			<!-- DataTales Example -->
+			<?= $this->session->flashdata('msg'); ?>
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
 					<h6 class="m-0 font-weight-bold text-primary">Showing All Products</h6>

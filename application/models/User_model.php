@@ -12,7 +12,7 @@ class User_model extends CI_Model{
             'block' => 0,
             'image' => 'default.png',
             'date_created' => time(),
-            'is_active' => 1,
+            'is_active' => 0,
             'role_id' => 2
         ];
         $this->db->insert('user_table', $data);
@@ -38,6 +38,11 @@ class User_model extends CI_Model{
         $this->db->update('user_table', $data);
     }
 
+    public function activateUser($email){
+        $this->db->where('email', $email);
+        $this->db->update('user_table', ['is_active' => 1]);
+    }
+
     public function updateImg(){
 
         $config['upload_path'] = './assets/img/profile/';
@@ -59,8 +64,8 @@ class User_model extends CI_Model{
         $this->db->update('user_table', ['image' => $image]);
     }
 
-    public function updatePassword($id, $password){
-        $this->db->where('id', $id);
+    public function updatePassword($email, $password){
+        $this->db->where('email', $email);
         $this->db->update('user_table', ['password' => password_hash($password, PASSWORD_DEFAULT)]);
     }
 

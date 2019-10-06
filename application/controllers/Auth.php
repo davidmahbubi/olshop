@@ -54,34 +54,47 @@ class Auth extends CI_Controller{
 
             if($data){
 
-                if(password_verify($password, $data['password'])){
+                if($data['is_active'] == 1){
 
-                    // Give session after verify complete
-                    $data = [
-                        'id' => $data['id'],
-                        'email' => $data['email'],
-                        'role_id' => $data['role_id']
-                    ];
-                    $this->session->set_userdata(['user' => $data]);
-
-                    // Give cookie if user checked remember me
-                    if($remember){
-
-                        // Give fake name to prevent user from hijacking
-                        $this->authSetCookie('app_version', $data['id']);
-                        $this->authSetCookie('browser_info', sha1($data['email']));
+                    if(password_verify($password, $data['password'])){
+    
+                        // Give session after verify complete
+                        $data = [
+                            'id' => $data['id'],
+                            'email' => $data['email'],
+                            'role_id' => $data['role_id']
+                        ];
+                        $this->session->set_userdata(['user' => $data]);
+    
+                        // Give cookie if user checked remember me
+                        if($remember){
+    
+                            // Give fake name to prevent user from hijacking
+                            $this->authSetCookie('app_version', $data['id']);
+                            $this->authSetCookie('browser_info', sha1($data['email']));
+                        }
+                        redirect('home');
+                        die;
+                    } else{
+                        $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+                            Wrong Password !
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>');
+                        redirect('auth');
                     }
-                    redirect('home');
-                    die;
+
                 } else{
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
-                        Wrong Password !
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>');
-                    redirect('auth');
+                            Account not activated
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>');
+                        redirect('auth');
                 }
+
             } else{
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
             Wrong E-Mail
@@ -114,18 +127,80 @@ class Auth extends CI_Controller{
         $this->form_validation->set_rules('password2', 'password confirmation', 'required|matches[password1]');
 
         if(!$this->form_validation->run()){
+
             $this->load->view('templates/front-end/header', $meta);
             $this->load->view('auth/register');
             $this->load->view('templates/front-end/footer');
+
         } else{
-            $this->User_model->addUser($this->input->post());
+            
+            $token = uniqid('mhb-act-');
+
+            // Send activation code to user email
+            $emailMessage = "Hello " . $this->input->post('first_name') . ', thanks for registering to our website,
+            click this <a href=" '. base_url('auth/activate?token=') . urlencode($token) . '&email=' . $this->input->post('email') . '&type=2">link</a> to activate your account';
+
+            if($this->sendEmail($this->input->post('email'), "Activate Your Account", $emailMessage)){
+
+                $this->Token_model->insertToken($this->input->post('email'), $token, 2);
+                $this->User_model->addUser($this->input->post());
+
+            } else{
+
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+                    Failed to send activation email, try again later
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+
+                redirect('auth/register');
+
+            }
             $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
             <strong>Success !</strong> Check your email for activation !
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>');
+
           redirect('auth');
+        }
+    }
+
+    public function activate(){
+
+        if($this->input->get('email') && $this->input->get('token') && $this->input->get('type')){
+
+            $email = $this->input->get('email');
+            $token = $this->input->get('token');
+            $type = $this->input->get('type');
+
+            $verify = $this->Token_model->verifyToken($email, $token, $type, true, 30);
+
+            if($verify['stats'] && $type == 2){
+                $this->User_model->activateUser($email);
+                $this->Token_model->deleteToken($email, $token);
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success !</strong> Account Activated !
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+
+            redirect('auth');
+            } else{
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Failed ! </strong> ' . $verify['msg'] .'
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+
+            redirect('auth');
+            }
+        } else{
+            redirect('404');
         }
     }
 
@@ -184,12 +259,12 @@ class Auth extends CI_Controller{
             if($data = $this->User_model->getUserByEmail($email)){
 
                 $token = uniqid('mhb-fg-');
-                $emailContent = "Hello " . $data['first_name'] . ' , to reset your password, klik this <a target="blank" href=" ' . base_url('auth/reset/?token=' . urlencode($token) . '&uid='. $data['id'] . '&type=1') . '">link</a>';
+                $emailContent = "Hello " . $data['first_name'] . ' , to reset your password, klik this <a target="blank" href=" ' . base_url('auth/reset/?token=' . urlencode($token) . '&email='. $data['email'] . '&type=1') . '">link</a>';
 
                 if($this->sendEmail($email, 'Reset your password', $emailContent)){
 
                     // Insert token to database
-                    $this->Token_model->insertToken($data['id'], $token, 1);
+                    $this->Token_model->insertToken($data['email'], $token, 1);
 
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
                         E-Mail has been sended, check your inbox / spam !
@@ -254,19 +329,19 @@ class Auth extends CI_Controller{
             return true;
         } else{
             $this->email->print_debugger();
-            die;
             return false;
         }
     }
 
     public function reset(){
-        if(!(!$this->input->get('token') || !$this->input->get('uid') || !$this->input->get('type'))){
+
+        if(!(!$this->input->get('token') || !$this->input->get('email') || !$this->input->get('type'))){
 
             $token = $this->input->get('token');
-            $user_id = $this->input->get('uid');
+            $user_email = $this->input->get('email');
             $type = $this->input->get('type');
 
-            $tokenVerify = $this->Token_model->verifyToken($user_id, $token, $type, true, 30);
+            $tokenVerify = $this->Token_model->verifyToken($user_email, $token, $type, true, 30);
 
             if($tokenVerify['stats'] && $type == 1){
                 
@@ -280,14 +355,16 @@ class Auth extends CI_Controller{
 
                 if($this->form_validation->run()){
                     
-                    $this->User_model->updatePassword($user_id, $this->input->post('pass-1'));
-                    $this->Token_model->deleteToken($user_id, $token);
+                    $this->User_model->updatePassword($user_email, $this->input->post('pass-1'));
+                    $this->Token_model->deleteToken($user_email, $token);
 
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success" role="alert">
                     <strong>Success !</strong> Password was resetted
                     </div>');
                     redirect('auth');
+
                 } else{
+
                     $meta['title'] = 'Reset Password';
         
                     $this->load->view('templates/front-end/header', $meta);

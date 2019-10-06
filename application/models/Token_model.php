@@ -5,20 +5,21 @@ class Token_model extends CI_Model{
     public function insertToken($userId, $token, $tokenType){
         $data = [
             'token' => $token,
-            'user_id' => $userId,
+            'user_email' => $userId,
             'token_type_id' => $tokenType,
             'date_created' => time()
         ];
         $this->db->insert('token_table', $data);
     }
 
-    public function verifyToken($userId, $token, $tokenType, bool $limit = false, int $limitDay = 0){
+    public function verifyToken($userEmail, $token, $tokenType, bool $limit = false, int $limitDay = 0){
 
         $criteria = [
             'token' => $token,
-            'user_id' => $userId,
+            'user_email' => $userEmail,
             'token_type_id' => $tokenType,
         ];
+
         $token = $this->db->get_where('token_table', $criteria)->row_array();
 
         if($token){
@@ -37,8 +38,8 @@ class Token_model extends CI_Model{
         }
     }
 
-    public function deleteToken($userId, $token){
-        $this->db->where('user_id', $userId);
+    public function deleteToken($userEmail, $token){
+        $this->db->where('user_email', $userEmail);
         $this->db->where('token', $token);
         $this->db->delete('token_table');
     }

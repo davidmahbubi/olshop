@@ -17,9 +17,7 @@ Install Instructions
 PHP version 7 or newer is recommended.
 
 1. Make a database, give a name : mhb-shop, then import .sql file inside of database folder
-2. Move all base files to your local server, let say you are using XAMPP, just copy to
-    Windows : C:\Xampp\htdocs
-    Linux   : /opt/lampp/htdocs
+2. Move all base files to your local server, let say you are using XAMPP, just copy to Windows : C:\\Xampp\\htdocs (Windows) | /opt/lampp/htdocs (Linux)
 3. Then, open your browser, and access for your localhost address.
 
 *******
@@ -46,6 +44,6 @@ Admin Template :
 
 ************************************************************
 
-///// SWEET LOVE FROM OUT LABS ! \\\\\
+///// SWEET LOVE FROM OUR LAB ! \\\\\\\\\
 
 

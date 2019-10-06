@@ -28,6 +28,15 @@ class Token_model extends CI_Model{
                 if((int)$token['date_created'] <= ($token['date_created'] + (60*60*24*$limitDay))){
                     return ['stats' => true, 'msg' => ''];
                 } else{
+                    $this->deleteToken($userEmail, $token);
+
+                    // If user token is register token, delete user after token expired
+
+                    if($tokenType == 2){
+                        $this->db->where('email', $user_email);
+                        $this->db->delete('user_table');
+                    }
+                    
                     return ['stats' => false, 'msg' => 'Token expired'];
                 }
             } else{

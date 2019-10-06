@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 05 Okt 2019 pada 11.37
+-- Waktu pembuatan: 06 Okt 2019 pada 03.43
 -- Versi server: 10.4.6-MariaDB
 -- Versi PHP: 7.3.9
 
@@ -182,7 +182,7 @@ CREATE TABLE `owner_table` (
 --
 
 INSERT INTO `owner_table` (`id`, `name`, `username`, `password`, `image`, `role_id`) VALUES
-(1, 'David Mahbubi', 'davidmhb', '$2y$10$d2d15ueXgclNzsCDQAL3ieKBlIYGU40q9dZ/KwtwYh1KvbBFdr7da', 'default.png', 1);
+(1, 'David Mahbubi', 'davidmhb', '$2y$10$d2d15ueXgclNzsCDQAL3ieKBlIYGU40q9dZ/KwtwYh1KvbBFdr7da', 'IMAG0026_resize.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -288,13 +288,32 @@ INSERT INTO `product_table` (`id`, `name`, `description`, `price`, `category_id`
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `role_table`
+--
+
+CREATE TABLE `role_table` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `role_table`
+--
+
+INSERT INTO `role_table` (`id`, `name`) VALUES
+(1, 'Owner'),
+(2, 'User');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `token_table`
 --
 
 CREATE TABLE `token_table` (
   `id` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_email` varchar(128) NOT NULL,
   `token_type_id` int(10) NOT NULL,
   `date_created` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -358,7 +377,8 @@ INSERT INTO `user_table` (`id`, `first_name`, `last_name`, `email`, `password`, 
 (1, 'Suzukaze', 'Aoba', 'suzuaoba@gmail.com', '$2y$10$MHcq.FfhDVTCBqXqOaXJGOnuyk.pQwsRca.49QVP/AcD/6iQWU8yG', '136-1035, Chayamachi, Komatsu-shi, Ishikawa, Japan', 0, 'beautiful-beauty-costume-2034538.jpg', 1569407658, 1, 2),
 (2, 'Ayra', 'Hikari', 'ayrachan@gmail.com', '$2y$10$z9xg7.zwzin0hy8./s3ZMOuvV/1wAT3luifFzAXmHv5i8QRFCR/0O', '', 0, 'default.png', 1569407733, 1, 2),
 (3, 'David', 'Mahbubi', 'ulrichdavid0370@gmail.com', '$2y$10$PU7kGmEBokDDhV6j6pGPruqTc16ROz2LIqTyaClijvTceDfymlaN6', '', 0, 'default.png', 1569905695, 1, 2),
-(7, 'Tobi', 'Chopaw', 'tebicofaw@mailspro.net', '$2y$10$1QecKCf6alsFBiloSN.T7OZLpmMHFQZBGE1UU43yIGxPh3KqRA9BK', '', 0, 'default.png', 1569928627, 1, 2);
+(7, 'Tobi', 'Chopaw', 'tebicofaw@mailspro.net', '$2y$10$1QecKCf6alsFBiloSN.T7OZLpmMHFQZBGE1UU43yIGxPh3KqRA9BK', '', 0, 'default.png', 1569928627, 1, 2),
+(14, 'AAS', 'ASD', 'nathanael.safwan@thtt.us', '$2y$10$DF6VW2VkfMLW6pwFkVIsdOjOrgvDeL9JGALlJDJqi0s3nRpcditU.', '', 0, 'default.png', 1570325712, 1, 2);
 
 --
 -- Indexes for dumped tables
@@ -422,6 +442,12 @@ ALTER TABLE `product_review_table`
 -- Indeks untuk tabel `product_table`
 --
 ALTER TABLE `product_table`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `role_table`
+--
+ALTER TABLE `role_table`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -507,10 +533,16 @@ ALTER TABLE `product_table`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT untuk tabel `role_table`
+--
+ALTER TABLE `role_table`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `token_table`
 --
 ALTER TABLE `token_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `token_type_table`
@@ -528,7 +560,7 @@ ALTER TABLE `user_role_table`
 -- AUTO_INCREMENT untuk tabel `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

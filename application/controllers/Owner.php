@@ -66,6 +66,51 @@ class Owner extends CI_Controller{
         }
     }
 
+    public function ownerUpdatePassword(){
+        if($this->input->post()){
+            
+            // Replace the error messages
+            $this->form_validation->set_message('matches', '{field} not match !');
+
+            $this->form_validation->set_rules('curr-pass', 'current password', 'required');
+            $this->form_validation->set_rules('password-1', 'new password', 'required|min_length[5]');
+            $this->form_validation->set_rules('password-2', 'confirm password', 'required|matches[password-1]');
+
+            if(!$this->form_validation->run()){
+                $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ' . validation_errors() .'
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('Owner');
+            } else{
+
+                $owner = $this->User_model->getOwnerById($this->input->post('owner-id'));
+                if(password_verify($this->input->post('curr-pass'), $owner['password'])){
+                    $this->User_model->updateOwnerPassword($this->input->post('owner-id'), $this->input->post('password-1'));
+                    $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Password updated !
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+                    redirect('Owner');
+                } else{
+                    $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Current password is wrong
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+                    redirect('Owner');
+                }
+            }
+        } else{
+            redirect('404');
+        }
+    }
+
     public function uploadImage(){
         $config['upload_path'] = './assets/img/profile/';
         $config['allowed_types'] = 'jpeg|png|jpg|bmp';

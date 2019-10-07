@@ -5,7 +5,7 @@ This time, we make a halal product checker, to make sure you buy a right halal p
 
 # Credits
 
-Halal Product Database API : http://api.agusadiyanto.net
+Halal Product Database API : http://api.agusadiyanto.net  
 Bootstrap 4 (CSS Framework) : https://getbootstrap.com
 
 # License

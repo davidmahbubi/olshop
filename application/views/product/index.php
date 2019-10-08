@@ -2,22 +2,37 @@
 	<div class="row mt-4">
 		<!-- Left -->
 		<div class="col-lg-4">
-			<ul class="list-group">
-				<li class="list-group-item">
-					<h3 class="mt-2">Filter</h3>
-				</li>
-				<?php foreach($categories as $c) : ?>
-				<li class="list-group-item">
-					<div class="form-check">
-						<input class="form-check-input check-filter" type="checkbox" value="<?=$c['id']?>"
-							id="check-<?=$c['name']?>" />
-						<label class="form-check-label" for="check-<?=$c['name']?>" style="cursor: pointer">
-							<?= $c['name'] ?>
-						</label>
+			<div class="accordion" id="accordionExample">
+				<div class="card">
+					<div class="card-header" id="headingOne">
+						<h2 class="mb-0">
+							<button class="btn btn-link text-dark font-weight-bold" style="font-size: 20px;" type="button" data-toggle="collapse" data-target="#collapseOne"
+								aria-expanded="true" aria-controls="collapseOne">
+								Filter
+							</button>
+						</h2>
 					</div>
-				</li>
-				<?php endforeach; ?>
-			</ul>
+					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+						data-parent="#accordionExample">
+						<div class="card-body">
+							<ul class="list-group">
+								<?php foreach($categories as $c) : ?>
+								<li class="list-group-item">
+									<div class="form-check">
+										<input class="form-check-input check-filter" type="checkbox"
+											value="<?=$c['id']?>" id="check-<?=$c['name']?>" />
+										<label class="form-check-label" for="check-<?=$c['name']?>"
+											style="cursor: pointer">
+											<?= $c['name'] ?>
+										</label>
+									</div>
+								</li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Right -->
 		<div class="col-lg-8 mb-4">
@@ -120,26 +135,26 @@
 			dataType: 'json',
 			success: function (result) {
 				$('#productContainer').html('');
-				if(result.stats){
-				$.each($(result.data), function (i, e) {
-					$('#productContainer').append(
-						'<div class="col-sm-6 mt-3 product-col"><div class="card"><img src="' +
-						baseUrl + 'assets/img/product/' + e.img +
-						'" class="card-img-top dv-card-prod-img"alt="..." /><div class="card-body" id="' +
-						e.id + '"><h5>' + e.name + '</h5>');
-					if (e.rating >= 1) {
-						for (let i = 0; i < e.rating; i++) {
-							$('#' + e.id).append('<i class="fas fa-star"></i>');
-						};
-					} else {
-						$('#' + e.id).append('<p>No rating yet</p>')
-					}
-					$('#' + e.id).append('<p class="mt-2">' + e.price + '</p><a href="' +
-						baseUrl + 'product/details/' + e.id +
-						'"class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary">Buy Now</a></div></div></div>'
-					);
-				});
-				} else{
+				if (result.stats) {
+					$.each($(result.data), function (i, e) {
+						$('#productContainer').append(
+							'<div class="col-sm-6 mt-3 product-col"><div class="card"><img src="' +
+							baseUrl + 'assets/img/product/' + e.img +
+							'" class="card-img-top dv-card-prod-img"alt="..." /><div class="card-body" id="' +
+							e.id + '"><h5>' + e.name + '</h5>');
+						if (e.rating >= 1) {
+							for (let i = 0; i < e.rating; i++) {
+								$('#' + e.id).append('<i class="fas fa-star"></i>');
+							};
+						} else {
+							$('#' + e.id).append('<p>No rating yet</p>')
+						}
+						$('#' + e.id).append('<p class="mt-2">' + e.price + '</p><a href="' +
+							baseUrl + 'product/details/' + e.id +
+							'"class="btn text-white w-100 bt-dv-bg-primary dv-bg-primary">Buy Now</a></div></div></div>'
+						);
+					});
+				} else {
 					$('#productContainer').append('<h4 class="ml-3">Product not found !</h4>');
 				}
 			}

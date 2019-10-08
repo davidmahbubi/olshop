@@ -6,7 +6,8 @@
 		<img width="200" src="<?=base_url()?>assets/img/profile/<?=$owner['image']?>" alt="error"
 			class="img-thumbnail mx-auto">
 		<h1 class="mt-3"><?= $owner['name'] ?></h1>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfile">Edit
+		<button class="btn btn-outline-primary mt-2" type="button" data-toggle="modal" data-target="#updatePassword">Update Password</button>
+		<button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#editProfile">Edit
 			Profile</button>
 	</div>
 </div>
@@ -47,6 +48,46 @@
                         <label class="custom-file-label" for="profilePhoto">Profile Photo</label>
                     </div>
                 </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal Update Password -->
+
+<div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="<?=base_url()?>Owner/ownerupdatepassword", method="POST">
+				<div class="modal-header">
+					<h5 class="modal-title" id="updatePasswordTitle">Update Password</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="currentPassword">Current Password</label>
+						<input type="password" class="form-control" id="currentPassword" placeholder="Current Password"
+							name="curr-pass">
+					</div>
+					<div class="form-group">
+						<label for="newPassword">New Password</label>
+						<input type="password" class="form-control" id="newPassword" placeholder="New Password"
+							name="password-1">
+					</div>
+					<div class="form-group">
+						<label for="confirmPassword">Confirm Password</label>
+						<input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
+							name="password-2">
+					</div>
+					<input type="hidden" value="<?=$owner['id'];?>" name="owner-id">
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-primary">Save changes</button>

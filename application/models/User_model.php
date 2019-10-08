@@ -88,4 +88,9 @@ class User_model extends CI_Model{
         }
         $this->db->update('owner_table', $data);
     }
+
+    public function updateOwnerPassword($id, $password){
+        $this->db->where('id', $id);
+        $this->db->update('owner_table', ['password' => password_hash($password, PASSWORD_DEFAULT)]);
+    }
 }

@@ -87,6 +87,25 @@ class AdminOrder extends CI_Controller{
         }
     }
 
+    public function user($id = NULL){
+        if(is_null($id)){
+
+            redirect('404');
+
+        } else{
+
+            $data['user'] = $this->User_model->getUserById($id);
+
+            $meta['title'] = 'User Details';
+
+            $this->load->view('templates/back-end/header', $meta);
+            $this->load->view('templates/back-end/sidebar');
+            $this->load->view('templates/back-end/topbar');
+            $this->load->view('admin_order/user', $data);
+            $this->load->view('templates/back-end/footer');
+        }
+    }
+
     public function pendingOrder(){
 
         $meta['title'] = 'Product Details';

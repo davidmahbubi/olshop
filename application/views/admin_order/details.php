@@ -14,7 +14,7 @@
 						<li> Order Date : <?=date('d F Y H:i:s', $order['order_date'])?></li>
 						<li> Transfer Receipt Image : <a href="<?=base_url()?>AdminOrder/receipt/<?=$order['order_id']?>">View</a>
 						</li>
-						<li> Order Account : <a href="#"><?= $account['first_name' ]. " " . $account['last_name'] ?></a></li>
+						<li> Order Account : <a href="<?=base_url()?>AdminOrder/user/<?=$account['id']?>"><?= $account['first_name' ]. " " . $account['last_name'] ?></a></li>
 						<li> Courier : <?=$order['name']?></li>
 						<li> Airway Bill : <?=$order['airway_bill']?></li>
 						<li> Status : <?=$order['status_name']?></li>

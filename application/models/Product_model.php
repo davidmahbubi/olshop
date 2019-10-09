@@ -2,8 +2,8 @@
 
 class Product_model extends CI_Model{
 
-    public function getAllProduct($stockFilter = true){
-        $this->db->order_by('date_created', 'DESC');
+    public function getAllProduct($stockFilter = true, $orderBy = 'date_created', $orderType="DESC"){
+        $this->db->order_by($orderBy, $orderType);
         if($stockFilter){
             return $this->db->get_where('product_table', ['stock > ' => 0])->result_array();
         } else{

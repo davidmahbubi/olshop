@@ -14,7 +14,7 @@ class Product extends CI_Controller{
 
         $meta['title'] = 'Product';
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
-        $data['product'] = $this->Product_model->getAllProduct();
+        $data['product'] = $this->Product_model->getAllProduct(true, 'rating', 'DESC');
         $data['categories'] = $this->Product_model->getAllCategories();
 
         $this->load->view('templates/front-end/header', $meta);
@@ -61,7 +61,7 @@ class Product extends CI_Controller{
                 }
             }
 
-            $this->db->order_by('date_created', 'DESC');
+            $this->db->order_by($this->input->post('order'), $this->input->post('orderType'));
 
             $res = $this->db->get_where('product_table', ['stock > ' => 0])->result_array();
 

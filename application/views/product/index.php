@@ -13,7 +13,7 @@
 							</button>
 						</h2>
 					</div>
-					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
 						data-parent="#accordionExample">
 						<div class="card-body">
 							<ul class="list-group">
@@ -36,21 +36,44 @@
 				<div class="card">
 					<div class="card-header" id="headingTwo">
 						<h2 class="mb-0">
-							<button class="btn btn-link text-dark font-weight-bold" style="font-size: 20px;" type="button" data-toggle="collapse"
-								data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-								Order By (Work in progress)
+							<button class="btn btn-link text-dark font-weight-bold" style="font-size: 20px;"
+								type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+								aria-controls="collapseTwo">
+								Order By
 							</button>
 						</h2>
 					</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 						<div class="card-body">
-							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-							squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-							nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-							single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-							beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
-							lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
-							probably haven't heard of them accusamus labore sustainable VHS.
+							<ul class="list-group">
+								<li class="list-group-item">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="order"
+											id="orderByPrice" value="price" data-order-type="ASC">
+										<label class="form-check-label" for="orderByPrice">
+											Price
+										</label>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="order"
+											id="orderByRating" value="rating" data-order-type="DESC" checked>
+										<label class="form-check-label" for="orderByRating">
+											Rating
+										</label>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="order"
+											id="orderByDate" value="date_created" data-order-type="DESC">
+										<label class="form-check-label" for="orderByDate">
+											Date
+										</label>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -93,26 +116,86 @@
 		</div>
 	</div>
 </div>
+
 <script>
+
 	const baseUrl = '<?=base_url()?>';
 	let checkFilter = $('.check-filter');
 	let filter = [];
+	let order = '';
+	let orderType = '';
 
 	$(checkFilter).click(function () {
 
 		filter = [];
+
+		// Clearing search bar value
+		
 		$('#inputSearch').val('');
+
+		// Get all checked filter
 
 		$.each($(checkFilter), function (i, e) {
 			if ($(e).prop('checked')) {
 				filter.push($(e).val());
 			}
 		});
+		
+		if($(filter).length == 0){
+			location.reload();
+		}
 
+		// Get all checked order
+
+		$.each($('input[name=order]'), function(i, e){
+			if($(this).prop('checked')){
+				order = $(this).val();
+				orderType = $(this).data('order-type');
+			}
+		});
+		doFiltering();
+	});
+
+	$('input[name=order]').click(function(){
+
+		filter = [];
+
+		// Clearing search bar value
+		
+		$('#inputSearch').val('');
+
+		// Get all checked filter
+
+		$.each($(checkFilter), function (i, e) {
+			if ($(e).prop('checked')) {
+				filter.push($(e).val());
+			}
+		});
+		
+		if($(filter).length == 0){
+			$.each($(checkFilter), function(i, e){
+				filter.push($(e).val());
+			});
+		}
+
+		// Get all checked order
+
+		$.each($('input[name=order]'), function(i, e){
+			if($(this).prop('checked')){
+				order = $(this).val();
+				orderType = $(this).data('order-type');
+			}
+		});
+		doFiltering();
+	});
+
+	function doFiltering(){
 		$.ajax({
 			url: '<?=base_url()?>product/ajaxfilter',
 			data: {
-				data: filter
+				data: filter,
+				order: order,
+				orderType: orderType
 			},
 			method: 'post',
 			dataType: 'json',
@@ -142,7 +225,7 @@
 				}
 			}
 		});
-	});
+	}
 
 </script>
 

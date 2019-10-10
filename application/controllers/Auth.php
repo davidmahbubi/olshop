@@ -5,10 +5,13 @@ defined('BASEPATH') or exit();
 class Auth extends CI_Controller{
 
     public function __construct(){
+
         parent::__construct();
+
         $this->load->model('User_model');
         $this->load->model('Token_model');
         $this->load->helper('cookie');
+
     }
 
     public function index(){
@@ -19,8 +22,11 @@ class Auth extends CI_Controller{
 
         // Check cookie is valid or not
         if(get_cookie('app_version') && get_cookie('browser_info')){
+
             $data = $this->User_model->getUserById(get_cookie('app_version'));
+
             if($data){
+
                 if(sha1($data['email']) === get_cookie('browser_info')){
                     // Give session after cookie verify complete
                     $data = [
@@ -28,8 +34,11 @@ class Auth extends CI_Controller{
                         'email' => $data['email'],
                         'role_id' => $data['role_id']
                     ];
+
                     $this->session->set_userdata(['user' => $data]);
+
                     redirect('home');
+
                     die;
                 }
             }
@@ -41,9 +50,11 @@ class Auth extends CI_Controller{
         $this->form_validation->set_rules('password', 'password', 'required');
 
         if(!$this->form_validation->run()){
+
             $this->load->view('templates/front-end/header', $meta);
             $this->load->view('auth/index');
             $this->load->view('templates/front-end/footer');
+
         } else{
 
             $email = $this->input->post('email');
@@ -73,36 +84,48 @@ class Auth extends CI_Controller{
                             $this->authSetCookie('app_version', $data['id']);
                             $this->authSetCookie('browser_info', sha1($data['email']));
                         }
+
                         redirect('home');
+
                         die;
+
                     } else{
+
                         $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
                             Wrong Password !
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
-                        </div>');
+                            </div>');
+
                         redirect('auth');
+
                     }
 
                 } else{
+
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
-                            Account not activated
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
+                        Account not activated
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                         </div>');
-                        redirect('auth');
+
+                    redirect('auth');
+
                 }
 
             } else{
+
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
-            Wrong E-Mail
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>');
-        redirect('auth');  
+                    Wrong E-Mail
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+
+                redirect('auth');  
+
             }
         }
 
@@ -157,14 +180,16 @@ class Auth extends CI_Controller{
                 redirect('auth/register');
 
             }
+
             $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
-            <strong>Success !</strong> Check your email for activation !
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>');
+                <strong>Success !</strong> Check your email for activation !
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
 
           redirect('auth');
+
         }
     }
 
@@ -179,17 +204,21 @@ class Auth extends CI_Controller{
             $verify = $this->Token_model->verifyToken($email, $token, $type, true, 30);
 
             if($verify['stats'] && $type == 2){
+
                 $this->User_model->activateUser($email);
                 $this->Token_model->deleteToken($email, $token);
+
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success alert-dismissible fade show" role="alert">
                     <strong>Success !</strong> Account Activated !
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
-                </div>');
+                    </div>');
 
-            redirect('auth');
+                redirect('auth');
+
             } else{
+
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
                     <strong>Failed ! </strong> ' . $verify['msg'] .'
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -197,10 +226,13 @@ class Auth extends CI_Controller{
                     </button>
                 </div>');
 
-            redirect('auth');
+                redirect('auth');
+
             }
         } else{
+
             redirect('404');
+
         }
     }
 
@@ -220,31 +252,44 @@ class Auth extends CI_Controller{
             $data = $this->User_model->getOwnerByUname($this->input->post('username'));
 
             if($data){
+
                 if(password_verify($this->input->post('password'), $data['password'])){
+
                     $userdata = [
                         'id' => $data['id'],
                         'name' => $data['name'],
                         'role_id' => $data['role_id'],
                         'image' => $data['image']
                     ];
+
                     $this->session->set_userdata(['admin' => $userdata]);
+
                     redirect('admin');
+
                 } else{
+
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
-                    <strong>Failed !</strong> Wrong password
-                    </div>');
+                        <strong>Failed !</strong> Wrong password
+                        </div>');
+
                     redirect('auth/admin_login');
+
                 }
             } else{
+
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
-                <strong>Failed !</strong> Wrong username
-                </div>');
+                    <strong>Failed !</strong> Wrong username
+                    </div>');
+
                 redirect('auth/admin_login');
+
             }
         } else{
+
             $this->load->view('templates/front-end/header', $meta);
             $this->load->view('auth/admin');
             $this->load->view('templates/front-end/footer');
+
         }
     }
 
@@ -288,13 +333,17 @@ class Auth extends CI_Controller{
 
                 }
             } else{
+
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
                 <strong>Failed !</strong> E-Mail is not registered
                 </div>');
+
                 redirect('auth/forgot');
+
             }
 
         } else{
+
             $meta['title'] = 'Forgot Password';
     
             $this->load->view('templates/front-end/header', $meta);
@@ -359,9 +408,11 @@ class Auth extends CI_Controller{
                     $this->Token_model->deleteToken($user_email, $token);
 
                     $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-success" role="alert">
-                    <strong>Success !</strong> Password was resetted
-                    </div>');
+                        <strong>Success !</strong> Password was resetted
+                        </div>');
+
                     redirect('auth');
+
 
                 } else{
 
@@ -374,8 +425,8 @@ class Auth extends CI_Controller{
 
             } else{
                 $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger" role="alert">
-                <strong>Failed !</strong> ' . $tokenVerify['msg'] .'
-                </div>');
+                    <strong>Failed !</strong> ' . $tokenVerify['msg'] .'
+                    </div>');
                 redirect('auth/forgot');
             }
         } else{

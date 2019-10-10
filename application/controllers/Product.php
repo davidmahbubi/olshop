@@ -5,14 +5,17 @@ defined('BASEPATH') or exit();
 class Product extends CI_Controller{
 
     public function __construct(){
+
         parent::__construct();
         $this->load->model('User_model');
         $this->load->model('Product_model');
+
     }
 
     public function index(){
 
         $meta['title'] = 'Product';
+
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
         $data['product'] = $this->Product_model->getAllProduct(true, 'rating', 'DESC');
         $data['categories'] = $this->Product_model->getAllCategories();
@@ -28,7 +31,8 @@ class Product extends CI_Controller{
 
         $meta['title'] = 'Product Details';
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
-        // Get and join
+
+        // Costum query to fetch some data
         $query = "
             SELECT `product_table`.*, `product_categories_table`.`name` AS 'category_name'
             FROM `product_table` JOIN `product_categories_table`
@@ -48,7 +52,9 @@ class Product extends CI_Controller{
     public function ajaxFilter(){
         
         if(!$this->input->post()){
+
             echo json_encode(['stats' => false]);
+
         } else{
 
             $filterData = $this->input->post('data');
@@ -74,9 +80,13 @@ class Product extends CI_Controller{
     }
 
     public function ajaxsearch(){
+
         if(!$this->input->post()){
+
             echo json_encode($this->db->get('product_table')->result_array());
+
         } else{
+
             $query = $this->input->post('query');
             $query = "SELECT * FROM `product_table` WHERE `name` LIKE '%" . $query ."%' AND `stock` > 0 ORDER BY `date_created` DESC";
             $result = $this->Product_model->costumQuery($query);
@@ -95,27 +105,37 @@ class Product extends CI_Controller{
     public function buy($id = NULL){
 
         if(!isLoggedIn()){
+
             $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
-            Log in to buy this product
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>');
-        redirect('auth'); 
+                Log in to buy this product
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+            redirect('auth');
+
         }
 
         if(is_null($id)){
+
             redirect('404');
+
         } else{
 
             $product = $this->Product_model->getProductById($id);
 
             if($this->input->post('qty')){
+
                 $qty = $this->input->post('qty');
+
             } else{
+
                 $qty = 1;
+
             }
+
             $this->cart->destroy();
+            
             $this->cart->insert([
                 'id' => $id,
                 'qty' => $qty,

@@ -5,9 +5,12 @@ defined('BASEPATH') or exit();
 class Admin extends Ci_Controller{
 
     public function __construct(){
+
         parent::__construct();
+
         $this->load->model('Order_model');
         $this->load->model('Product_model');
+
     }
 
     public function index(){
@@ -15,6 +18,7 @@ class Admin extends Ci_Controller{
         if(!isAdmin()){
             redirect('auth/admin_login');
         }
+        
         $meta['title'] = "Admin - MHB's Shop";
 
         // Retrieve Data

@@ -12,6 +12,7 @@ class AdminProduct extends CI_Controller{
         }
 
         $this->load->model('Product_model');
+
     }
 
     public function index(){
@@ -22,9 +23,11 @@ class AdminProduct extends CI_Controller{
         $data['outOfStock'] = [];
 
         foreach($data['allProduct'] as $ap){
+
             if($ap['stock'] == 0){
                 $data['outOfStock'][] = $ap;
             }
+
         }
 
         $this->load->view('templates/back-end/header', $meta);
@@ -121,13 +124,16 @@ class AdminProduct extends CI_Controller{
                 $meta['title'] = 'Product Details';
                 $data['product'] = $this->Product_model->getProductById($id, false);
                 $data['buyTimes'] = $this->Product_model->getBuyedProduct($id);
+                
                 if(is_null($data['buyTimes'])){
                     $data['buyTimes'] = 0;
                 } else{
                     $data['buyTimes'] = count($data['buyTimes']);
                 }
+
                 $data['categoryResult'] = $this->Product_model->getAllCategories();
                 $data['category'] = [];
+
                 // Replace original default numeric index from result of db query, so the category id will be index of categoriy array
     
                 foreach($data['categoryResult'] as $c){
@@ -157,96 +163,114 @@ class AdminProduct extends CI_Controller{
 
                         $this->Product_model->updateProductImg($id, $oldFileName, $newFileName);
                         $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Product Details Updated
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>');
+                            Product Details Updated
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
                         redirect('AdminProduct/details/' . $id);
                         
                     } else{
 
                         $this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                         '. $uploadImage['data'] .'
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>');
-
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
                         redirect('AdminProduct/details/' . $id);
 
                     }
                 }
+
                 $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                Product Details Updated
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-                </div>');
+                    Product Details Updated
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
                 redirect('AdminProduct/details/' . $id);
             }
         }
     }
 
     public function categoryAjax(){
+
         if(!$this->input->post('category_id')){
             redirect('404');
         } else{
             $category = $this->Product_model->getCategoryById($this->input->post('category_id'));
             echo json_encode($category);
         }
+
     }
 
     public function editCategory(){
+
         if(!$this->input->post()){
             redirect('404');
         } else{
+
             $edit = $this->Product_model->editCategory($this->input->post('id'), $this->input->post('name'));
             if($edit){
                 echo json_encode(['stats' => true, 'name' => $this->input->post('name')]);
             } else{
                 echo json_encode(['stats' => false]);
             }
+
         }
+
     }
 
     public function addCategory(){
+
         if(!$this->input->post()){
             redirect('404');
         } else{
+
             if($this->Product_model->addCategory($this->input->post('name'))){
                 echo json_encode(['stats' => true]);
             } else{
                 echo json_encode(['stats' => false]);
             }
+
         }
+
     }
 
     public function deleteCategory(){
+
         if(!$this->input->post()){
             redirect('404');
         } else{
+
             if($this->Product_model->deleteCategory($this->input->post('id'))){
                 echo json_encode(['stats' => true]);
             } else{
                 echo json_encode(['stats' => false]);
             }
+
         }
+
     }
 
     public function deleteProduct($id = NULL){
+
         if(is_null($id)){
             redirect('404');
         } else{
+
             $this->Product_model->deleteProduct($id);
             $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
-            Product Deleted
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-            </div>');
+                Product Deleted
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
             redirect('AdminProduct');
+
         }
+
     }
 
     private function uploadProductImage(){
@@ -266,17 +290,24 @@ class AdminProduct extends CI_Controller{
     }
 
     public function search(){
+
         if(!$this->input->post('query')){
             redirect('404');
         } else{
+
             $this->db->like('name', $this->input->post('query'));
             $this->db->order_by('date_created', 'DESC');
+
             $result = $this->db->get('product_table')->result_array();
+
             echo json_encode($result);
+
         }
+
     }
 
     public function order(){
+
         if(!$this->input->post()){
             redirect('404');
         } else{
@@ -288,7 +319,9 @@ class AdminProduct extends CI_Controller{
                 $result[$i]['price'] = formatPrice($r['price'], 'Rp');
                 $result[$i]['date_created'] = date('d F Y', $r['date_created']);
             }
+            
             echo json_encode($result);
+
         }
     }
 }

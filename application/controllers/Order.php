@@ -5,6 +5,7 @@ defined('BASEPATH') or exit();
 class Order extends CI_Controller{
 
     public function __construct(){
+
         parent::__construct();
 
         if(!isLoggedIn()){
@@ -14,11 +15,13 @@ class Order extends CI_Controller{
         $this->load->model('User_model');
         $this->load->model('Payment_model');
         $this->load->model('Product_model');
+
     }
     
     public function index(){
 
         $meta['title'] = 'My Order';
+
         $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
 
         $query = "  SELECT * FROM `order_table` JOIN `order_identity_table`
@@ -29,7 +32,9 @@ class Order extends CI_Controller{
         $data['status'] = [];
 
         foreach($data['order'] as $d){
+
             $data['status'][] = $this->Payment_model->getOrderStatusById($d['order_status']);
+
         }
 
         $this->load->view('templates/front-end/header', $meta);
@@ -41,16 +46,22 @@ class Order extends CI_Controller{
     public function review($orderId = NULL){
 
         if(is_null($orderId)){
+
             redirect('404');
+
         } else{
 
             if($this->Payment_model->getOrder($orderId)['reviewed']){
+
                 $this->session->set_flashdata('msg', '
-                <div class="alert alert-success" role="alert">
-                You already reviewed this order
-                </div>');
+                    <div class="alert alert-success" role="alert">
+                    You already reviewed this order
+                    </div>');
+
                 redirect('checkout/status/' . urlencode($orderId));
+
                 die;
+
             }
 
             if($this->input->post('submit_bt')){
@@ -73,24 +84,30 @@ class Order extends CI_Controller{
                         $arrayBuff = [];
                         $loop = 0;
                     }
+
                     $loop++;
+
                 }
 
                 foreach($reviewDatum as $rdtum){
+
                     if(!empty($rdtum['rating'])){
+                        
                         $this->Product_model->addReview($rdtum);
                         $this->Product_model->updateOrderStatus($orderId);
                     }
                 }
 
                 $this->session->set_flashdata('msg', '
-                <div class="alert alert-success" role="alert">
-                Thanks for reviewing !
-                </div>');
+                    <div class="alert alert-success" role="alert">
+                    Thanks for reviewing !
+                    </div>');
+
                 redirect('checkout/status/' . urlencode($orderId));
             }
 
             $meta['title'] = 'My Order';
+            
             $req['user'] = isLoggedIn() ? $this->User_model->getUserById($this->session->userdata('user')['id']) : NULL;
 
             $query = "  SELECT * FROM `order_table` JOIN `order_identity_table`

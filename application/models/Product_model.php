@@ -2,13 +2,20 @@
 
 class Product_model extends CI_Model{
 
-    public function getAllProduct($stockFilter = true, $orderBy = 'date_created', $orderType="DESC"){
+    // Products management models
+
+    public function getAllProduct(bool $stockFilter = true, string $orderBy = 'date_created', string $orderType="DESC"){
         $this->db->order_by($orderBy, $orderType);
         if($stockFilter){
             return $this->db->get_where('product_table', ['stock > ' => 0])->result_array();
         } else{
             return $this->db->get('product_table')->result_array();
         }
+    }
+
+    public function getProductLimit(int $limit, bool $stockFilter = true, string $orderBy = 'date_created', string $orderType="DESC"){
+        $this->db->limit($limit);
+        return $this->getAllProduct($stockFilter, $orderBy, $orderType);
     }
 
     public function getProductById($id, $stockFilter = true){
@@ -19,24 +26,33 @@ class Product_model extends CI_Model{
         }
     }
 
-    public function costumQuery($query, $multiple = true){
-        if($multiple){
-            return $this->db->query($query)->result_array();
+    public function getEmptyStockProduct(){
+        $this->db->where('stock', 0);
+        return $this->getAllProduct(false);
+    }
+
+    public function deleteProduct($id){
+        $this->db->where('id', $id);
+        $this->db->delete('product_table');
+    }
+
+    public function getBuyedProduct($id){
+        return $this->db->get_where('ordered_product_table', ['id_product' => $id])->result_array();
+    }
+
+    // Categories Management models
+
+    public function getAllCategories(bool $resultSet = true){
+        if($resultSet){
+            return $this->db->get('product_categories_table')->result_array();
         } else{
-            return $this->db->query($query)->row_array();
+            return $this->db->get('product_categories_table')->row_array();
         }
     }
 
-    public function getEmptyStockProduct(){
-        return $this->db->get_where('product_table', ['stock' => 0])->result_array();
-    }
-
-    public function getAllCategories(){
-        return $this->db->get('product_categories_table')->result_array();
-    }
-
     public function getCategoryById($id){
-        return $this->db->get_where('product_categories_table', ['id' => $id])->row_array();
+        $this->db->where('id', $id);
+        return $this->getAllCategories(false);
     }
 
     public function editCategory($id, $name){
@@ -52,6 +68,18 @@ class Product_model extends CI_Model{
         $this->db->where('id', $id);
         return $this->db->delete('product_categories_table');
     }
+
+    // Costum Query Model
+
+    public function costumQuery($query, $multiple = true){
+        if($multiple){
+            return $this->db->query($query)->result_array();
+        } else{
+            return $this->db->query($query)->row_array();
+        }
+    }
+
+    // Product reviews management models
 
     public function addReview($data){
         $data = [
@@ -71,18 +99,9 @@ class Product_model extends CI_Model{
         return $this->db->query($query)->result_array();            
     }
 
-    public function deleteProduct($id){
-        $this->db->where('id', $id);
-        $this->db->delete('product_table');
-    }
-
     public function updateOrderStatus($orderId){
         $this->db->where('id', $orderId);
         $this->db->update('order_table', ['reviewed' => 1]);
-    }
-
-    public function getBuyedProduct($id){
-        return $this->db->get_where('ordered_product_table', ['id_product' => $id])->result_array();
     }
 
     public function addProduct($data){

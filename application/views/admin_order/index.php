@@ -30,7 +30,8 @@
 				<div class="card-body">
 					<div class="input-group mb-3">
 						<input type="text" class="form-control" id="inputSearch" placeholder="Find order id">
-						<div class="position-absolute d-none searchSuggestShade bg-white pt-2 pb-2" id="searchSuggestShade"
+						<div class="position-absolute d-none searchSuggestShade bg-white pt-2 pb-2"
+							id="searchSuggestShade"
 							style="width: 100%; top: 38px; box-shadow: 0px 5px 7px rgba(0,0,0,.5);">
 							<ul class="pl-2 mb-0" id="suggestUl" style="list-style-type: none;">
 							</ul>
@@ -48,10 +49,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach($allOrder as $i=>$aod): ?>
+								<?php foreach($limitedOrder as $aod): ?>
 								<tr>
-									<td><?= ++$i; ?></td>
-									<td><a href="<?=base_url()?>AdminOrder/details/<?=$aod['order_id']?>"><?= $aod['order_id'] ?></a></td>
+									<td><?= ++$pag['pageDataStart'] ?></td>
+									<td><a
+											href="<?=base_url()?>AdminOrder/details/<?=$aod['order_id']?>"><?= $aod['order_id'] ?></a>
+									</td>
 									<td><?= $aod['receiver_name'] ?></td>
 									<td><?= date('d F Y', $aod['order_date']) ?></td>
 									<td><?= $aod['status_name'] ?></td>
@@ -59,6 +62,15 @@
 								<?php endforeach; ?>
 							</tbody>
 						</table>
+						<nav aria-label="Page navigation example">
+							<ul class="pagination float-right">
+								<li class="page-item <?=$pag['nowPage'] == 1 ? 'disabled': ''?>"><a class="page-link" href="<?=base_url()?>AdminOrder?page=<?=$pag['nowPage'] - 1?>">Previous</a></li>
+								<?php for($i = 1; $i <= $pag['pageTotal']; $i++): ?>
+									<li class="page-item <?= $i == $pag['nowPage'] ? 'active':''?>"><a class="page-link" href="<?=base_url()?>AdminOrder?page=<?=$i?>"><?= $i; ?></a></li>
+								<?php endfor; ?>
+								<li class="page-item <?=$pag['nowPage'] == $pag['pageTotal'] ? 'disabled': ''?>"><a class="page-link" href="<?=base_url()?>AdminOrder?page=<?=$pag['nowPage'] + 1?>">Next</a></li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>
@@ -96,7 +108,8 @@
 					if (result.length != 0) {
 						$.each($(result), function (i, e) {
 							$(searchSuggest).removeClass('d-none');
-							$('#suggestUl').append('<li><a href="' + url + 'AdminOrder/details/' + e.id + '">' + e
+							$('#suggestUl').append('<li><a href="' + url +
+								'AdminOrder/details/' + e.id + '">' + e
 								.id + '</a></li>');
 						});
 					} else {

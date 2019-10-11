@@ -24,6 +24,35 @@ class AdminOrder extends CI_Controller{
 
         $data['allOrder'] = $this->Order_model->getWholeOrder();
 
+        $nowPage = 1;
+
+        if($this->input->get('page')){
+            $nowPage = $this->input->get('page');
+        }
+
+        // Pagination System
+
+        // Limit data per page = 10
+
+        define('PER_PAGE', 10);
+
+        // Counting page, start point and end point
+
+        $dataTotal = count($data['allOrder']);
+        $pageTotal = ceil(($dataTotal / PER_PAGE));
+        $pageDataEnd = PER_PAGE * $nowPage;
+        $pageDataStart = $pageDataEnd - PER_PAGE;
+
+        $data['pag']['dataTotal'] = $dataTotal;
+        $data['pag']['pageTotal'] = $pageTotal;
+        $data['pag']['pageDataStart'] = $pageDataStart;
+        $data['pag']['pageDataEnd'] = $pageDataEnd;
+        $data['pag']['nowPage'] = $nowPage;
+
+        $data['limitedOrder'] = $this->Order_model->getWholeOrder('DESC', true, PER_PAGE, $pageDataStart);
+        // var_dump($data['limitedOrder']);
+        // die;
+
         $this->load->view('templates/back-end/header', $meta);
         $this->load->view('templates/back-end/sidebar');
         $this->load->view('templates/back-end/topbar');

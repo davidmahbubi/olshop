@@ -2,7 +2,10 @@
 
 class Order_model extends CI_Model{
 
-    public function getAllOrder($sortDate = "DESC"){
+    public function getAllOrder($sortDate = "DESC", $limit = false, $limitTotal = 0, $offset = 0){
+        if($limit){
+            $this->db->limit($limitTotal, $offset);
+        }
         $this->db->order_by('order_date', $sortDate);
         return $this->db->get('order_table')->result_array();
     }
@@ -45,11 +48,11 @@ class Order_model extends CI_Model{
         }
     }
 
-    public function getWholeOrder($sortDate = 'DESC'){
+    public function getWholeOrder($sortDate = 'DESC', $limit = false, $limitTotal = 0, $offset = 0){
         $this->db->join('order_identity_table', 'order_id = `order_table`.`id`');
         $this->db->join('order_status_table', 'order_status = `order_status_table`.`id`');
         $this->db->order_by('order_date', $sortDate);
-        return $this->getAllOrder();
+        return $this->getAllOrder($sortDate, $limit, $limitTotal, $offset);
     }
 
     public function getWholeOrderById($id){

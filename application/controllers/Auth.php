@@ -156,6 +156,16 @@ class Auth extends CI_Controller{
             $this->load->view('templates/front-end/footer');
 
         } else{
+
+            if(!$this->input->post('g-recaptcha-response')){
+                $this->session->set_flashdata('msg', '<div class="alert mt-2 mb-2 alert-danger alert-dismissible fade show" role="alert">
+                    Failed, Human Verification is fail
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+                redirect('auth/register');
+            }
             
             $token = uniqid('mhb-act-');
 
